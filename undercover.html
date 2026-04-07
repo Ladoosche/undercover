@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--
+  UNDERCOVER — Main HTML file
+  This file contains only structure (markup).
+  Styles live in undercover.css
+  Logic lives in undercover.js
+
+  Screen flow:
+    screen-setup   → Add players
+    screen-config  → Set undercover count, Mr. White, word pair
+    screen-pass    → Pass the phone to each player
+    screen-reveal  → Player sees their role
+    screen-game    → Live game board (rounds, elimination)
+    screen-recheck → Any player can re-check their role
+    screen-end     → Winner announced, restart options
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Viewport meta ensures the layout fits mobile screens exactly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Undercover</title>
+
+  <!-- Google Fonts: Playfair Display for display headings, DM Sans for body -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- All visual styling -->
+  <link rel="stylesheet" href="undercover.css"/>
+</head>
+<body>
+
+  <!-- ── Background canvas ────────────────────────────────────
+       Drawn by JS (drawBackground in undercover.js).
+       Sits fixed behind everything via z-index: 0.            -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ── App wrapper ──────────────────────────────────────────
+       Full-viewport flex container that centres the phone frame. -->
+  <div id="app">
+
+    <!-- ── Phone frame ────────────────────────────────────────
+         Styled as a rounded phone on desktop/tablet.
+         Becomes full-screen on mobile (border-radius: 0).     -->
+    <div class="frame" id="frame">
+
+      <!-- Decorative notch (hidden on mobile) -->
+      <div class="notch"></div>
+
+      <!-- Language toggle: always visible in the top-right corner -->
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">FR</button>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 1 — SETUP
+           Host adds the players who will play.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen active" id="screen-setup">
+        <div class="page-title" id="t-setup">Players</div>
+        <div class="page-sub"   id="t-setup-sub">Add everyone playing tonight</div>
+
+        <!-- Name input + add button -->
+        <div class="input-row">
+          <input
+            type="text"
+            id="playerInput"
+            placeholder="Player name"
+            onkeydown="if(event.key==='Enter') addPlayer()"
+          />
+          <button class="btn btn-primary btn-icon btn-sm" onclick="addPlayer()">+</button>
+        </div>
+
+        <!-- Dynamically populated player rows (see renderPlayerList in JS) -->
+        <div id="playerList"></div>
+
+        <div class="spacer"></div>
+
+        <button class="btn btn-primary" id="t-next1" onclick="goToConfig()">Next →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 2 — CONFIG
+           Set number of undercovers, Mr. White toggle, and word pair.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-config">
+        <div class="page-title" id="t-config">Settings</div>
+        <div class="page-sub"   id="t-config-sub">Configure the game</div>
+
+        <!-- Undercover counter: − / count / + with a suggested value hint -->
+        <div class="section-label" id="t-undercov-label">Undercovers</div>
+        <div class="counter-row">
+          <button class="counter-btn" onclick="changeUnder(-1)">−</button>
+          <span   class="counter-val" id="underCount">1</span>
+          <button class="counter-btn" onclick="changeUnder(1)">+</button>
+          <span   class="counter-note" id="underSug"></span>
+        </div>
+
+        <!-- Mr. White toggle switch -->
+        <div class="toggle-row">
+          <span class="toggle-label" id="t-mrw">Mr. White</span>
+          <label class="toggle">
+            <input type="checkbox" id="mrWhiteToggle" onchange="changeUnder(0)"/>
+            <span class="slider-t"></span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Word pair section -->
+        <div class="section-label" id="t-words-label">Word pair</div>
+        <div class="card">
+          <div style="font-size:11px;color:var(--brown-light);margin-bottom:6px" id="t-civilian-word">
+            Civilian word
+          </div>
+
+          <!-- Three-column layout: word1 / vs / word2 -->
+          <div class="word-pair-grid">
+            <input class="word-input" type="text" id="word1"/>
+            <span  class="vs-divider">vs</span>
+            <input class="word-input" type="text" id="word2"/>
+          </div>
+
+          <div style="font-size:11px;color:var(--brown-light);margin-top:4px" id="t-undercover-word">
+            Undercover word
+          </div>
+
+          <!-- Suggest a random pair from the word database -->
+          <button class="btn btn-sm" style="margin-top:12px;width:auto" onclick="suggestWords()" id="t-suggest">
+            ↻ Suggest a pair
+          </button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <button class="btn"         id="t-back1"  onclick="goTo('screen-setup')">← Back</button>
+        <button class="btn btn-primary" id="t-start" onclick="startPassPhone()">Start game</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 3 — PASS PHONE
+           The phone is handed to each player one by one.
+           Shows their name and an avatar, prompts them to tap.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-pass">
+        <div class="page-title" id="t-pass-title">Your turn</div>
+        <div class="page-sub"   id="t-pass-sub">Pass the phone to this player</div>
+
+        <!-- Large centred card with the current player's name -->
+        <div class="pass-card">
+          <div class="pass-avatar">
+            <span class="pass-initials" id="passInitials">A</span>
+          </div>
+          <div class="pass-name" id="passName">Alice</div>
+          <div class="pass-hint" id="t-pass-hint">Tap below to see your role — keep it secret!</div>
+        </div>
+
+        <button class="btn btn-primary" id="t-reveal" onclick="revealRole()">See my role</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 4 — ROLE REVEAL
+           The player sees their role badge, word and objective.
+           They hide the screen before passing back.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-reveal">
+        <div class="page-title" id="t-reveal-title">Your role</div>
+        <div class="page-sub"   id="t-reveal-sub">Memorise this, then hide it</div>
+
+        <!-- Role card — populated by revealRole() in JS -->
+        <div class="role-card" id="roleCard">
+          <div class="role-badge" id="roleBadge"></div>
+          <div class="role-word"  id="roleWord"></div>
+          <div class="role-desc"  id="roleDesc"></div>
+        </div>
+
+        <button class="btn btn-primary" id="t-hide" onclick="nextPassPlayer()">Hide & pass →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 5 — GAME
+           Live game board: round counter, player list,
+           recheck counter, and action buttons.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-game">
+
+        <!-- Header row: large round number + active/eliminated meta -->
+        <div class="game-header">
+          <div>
+            <div class="round-display" id="roundNum">1</div>
+            <div class="round-label"   id="t-round-label">Round</div>
+          </div>
+          <div class="game-meta" id="gameMeta"></div>
+        </div>
+
+        <!-- Player rows — rebuilt by renderGameScreen() in JS -->
+        <div id="gamePlayerList"></div>
+
+        <!-- Shows how many times "Check role" has been used -->
+        <div class="recheck-bar" id="recheckInfo"></div>
+
+        <div class="spacer"></div>
+
+        <!-- Two side-by-side action buttons -->
+        <div class="game-actions">
+          <button class="btn"         id="t-recheck" onclick="openRecheck()">Check role</button>
+          <button class="btn btn-primary" id="t-elim"   onclick="openEliminate()">Eliminate</button>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 6 — RECHECK
+           Any player can tap their own name to re-see their role.
+           The list is populated by openRecheck() in JS.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-recheck">
+        <div class="page-title" id="t-recheck-title">Who are you?</div>
+        <div class="page-sub"   id="t-recheck-sub">Tap your name to see your role</div>
+
+        <!-- Active player buttons — populated by openRecheck() in JS -->
+        <div id="recheckList"></div>
+
+        <div class="spacer"></div>
+
+        <button class="btn" id="t-back-game" onclick="goTo('screen-game');renderGameScreen()">
+          ← Back
+        </button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 7 — END
+           Winner announced, game stats shown,
+           and three restart options offered.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-end">
+
+        <!-- Winner announcement block -->
+        <div class="winner-display">
+          <div class="winner-icon" id="winnerIcon">
+            <!-- Star icon -->
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M14 3l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L14 17l-5.6 3 1.1-6.1L5 9.5l6.2-.9L14 3z"
+                stroke="#D85A30" stroke-width="1.5" stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="winner-title" id="winnerTitle"></div>
+          <div class="winner-sub"   id="winnerSub"></div>
+        </div>
+
+        <!-- Stat rows — populated by endGame() in JS -->
+        <div id="endStats"></div>
+
+        <div class="spacer"></div>
+
+        <!-- Three end-of-game options -->
+        <button class="btn btn-primary" id="t-newgame"     onclick="newGame()">New game — new words</button>
+        <button class="btn"             id="t-editplayers" onclick="editPlayers()">Edit players</button>
+        <button class="btn btn-danger"  id="t-quit"        onclick="quitGame()">Quit</button>
+      </div>
+
+
+      <!-- ── Modal container ──────────────────────────────────
+           Bottom-sheet modals (elimination picker, role reveal,
+           Mr. White guess) are injected here by JS.            -->
+      <div id="modalContainer"></div>
+
+    </div><!-- /.frame -->
+  </div><!-- /#app -->
+
+  <!-- Game logic — loaded at the end of body so the DOM is ready -->
+  <script src="undercover.js"></script>
+
+</body>
+</html>
