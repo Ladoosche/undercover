@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--
+  UNDERCOVER — Main HTML file
+  Only structure lives here. Styles → undercover.css, Logic → undercover.js
+
+  Screen flow:
+    screen-setup   → Add players
+    screen-config  → Undercovers, Mr. White, word visibility, word pair
+    screen-pass    → Pass the phone to each player
+    screen-reveal  → Player sees their WORD (role hidden until elimination)
+    screen-game    → Live board (rounds, player list, elimination)
+    screen-recheck → Re-check your word mid-game
+    screen-end     → Winner, stats, restart options
+
+  Changes from v1:
+    - Player count badge (.player-count-badge) added near title on every screen
+    - Error boxes (#setup-error-box, #config-error-box) for inline validation
+    - Language button moved to top-right; player count badge placed below title
+    - "Hide words" checkbox + conditional word-input section on config screen
+    - Role badge hidden on the reveal screen (players see word only)
+    - Modal uses .modal-box-scroll for scrollability with many players
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Undercover</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="undercover.css"/>
+</head>
+<body>
+
+  <!-- Background canvas — drawn by JS, sits behind everything -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div id="app">
+    <div class="frame" id="frame">
+
+      <!-- Decorative notch (hidden on mobile) -->
+      <div class="notch"></div>
+
+      <!-- Language toggle — top-right corner, visible on all screens -->
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">FR</button>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 1 — SETUP
+           Host types player names one by one.
+           Player count badge is hidden here (list is already visible).
+           ════════════════════════════════════════════════════ -->
+      <div class="screen active" id="screen-setup">
+        <div class="page-title" id="t-setup">Players</div>
+        <div class="page-sub"   id="t-setup-sub">Add everyone playing tonight</div>
+
+        <!-- Player count badge: hidden on this screen, shown on all others -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Name input + add button -->
+        <div class="input-row">
+          <input
+            type="text"
+            id="playerInput"
+            placeholder="Player name"
+            onkeydown="if(event.key==='Enter') addPlayer()"
+          />
+          <button class="btn btn-primary btn-icon btn-sm" onclick="addPlayer()">+</button>
+        </div>
+
+        <!-- Populated by renderPlayerList() in JS -->
+        <div id="playerList"></div>
+
+        <!-- Inline error container — shown by showError() in JS -->
+        <div id="setup-error-box"></div>
+
+        <div class="spacer"></div>
+        <button class="btn btn-primary" id="t-next1" onclick="goToConfig()">Next →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 2 — CONFIG
+           Set number of undercovers, Mr. White toggle,
+           word visibility checkbox, and word pair.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-config">
+        <div class="page-title" id="t-config">Settings</div>
+        <div class="page-sub"   id="t-config-sub">Configure the game</div>
+
+        <!-- Player count badge -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Undercover counter: − / value / + with suggested hint -->
+        <div class="section-label" id="t-undercov-label">Undercovers</div>
+        <div class="counter-row">
+          <button class="counter-btn" onclick="changeUnder(-1)">−</button>
+          <span   class="counter-val" id="underCount">1</span>
+          <button class="counter-btn" onclick="changeUnder(1)">+</button>
+          <span   class="counter-note" id="underSug"></span>
+        </div>
+
+        <!-- Mr. White toggle -->
+        <div class="toggle-row">
+          <span class="toggle-label" id="t-mrw">Mr. White</span>
+          <label class="toggle">
+            <input type="checkbox" id="mrWhiteToggle" onchange="changeUnder(0)"/>
+            <span class="slider-t"></span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Word visibility toggle
+             When ON  → words are chosen silently; no one sees them.
+             When OFF → host enters or edits the words below.         -->
+        <div class="toggle-row" style="border-top:none;padding-top:0;margin-bottom:10px">
+          <span class="toggle-label" id="t-words-hidden-label">Hide words from everyone</span>
+          <label class="toggle">
+            <input type="checkbox" id="hideWordsToggle" onchange="onHideWordsChange()"/>
+            <span class="slider-t"></span>
+          </label>
+        </div>
+
+        <!-- Shown when words ARE hidden — reassures the host -->
+        <div id="wordHiddenNote" class="word-hidden-note" style="display:none">
+          <!-- Populated by applyLang() via t('words-hidden-note') -->
+          A random pair is locked in — no one sees it.
+        </div>
+
+        <!-- Shown when words are visible — host enters / edits them -->
+        <div id="wordVisibleSection">
+          <div class="section-label" id="t-words-label">Word pair</div>
+          <div class="card">
+            <div style="font-size:11px;color:var(--brown-light);margin-bottom:6px" id="t-civilian-word">
+              Civilian word
+            </div>
+            <!-- Three-column: civilian word / vs / undercover word -->
+            <div class="word-pair-grid">
+              <input class="word-input" type="text" id="word1"/>
+              <span  class="vs-divider">vs</span>
+              <input class="word-input" type="text" id="word2"/>
+            </div>
+            <div style="font-size:11px;color:var(--brown-light);margin-top:4px" id="t-undercover-word">
+              Undercover word
+            </div>
+            <!-- Suggests a random pair from the JS word database -->
+            <button class="btn btn-sm" style="margin-top:12px;width:auto" onclick="suggestWords()" id="t-suggest">
+              ↻ Suggest a pair
+            </button>
+          </div>
+        </div>
+
+        <!-- Inline error container -->
+        <div id="config-error-box"></div>
+
+        <div class="spacer"></div>
+        <button class="btn"             id="t-back1" onclick="goTo('screen-setup')">← Back</button>
+        <button class="btn btn-primary" id="t-start" onclick="startPassPhone()">Start game</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 3 — PASS PHONE
+           Each player's name appears; they tap to see their word.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-pass">
+        <div class="page-title" id="t-pass-title">Your turn</div>
+        <div class="page-sub"   id="t-pass-sub">Pass the phone to this player</div>
+
+        <!-- Player count badge -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Large centred card — name and avatar populated by JS -->
+        <div class="pass-card">
+          <div class="pass-avatar">
+            <span class="pass-initials" id="passInitials">A</span>
+          </div>
+          <div class="pass-name" id="passName">Alice</div>
+          <div class="pass-hint" id="t-pass-hint">Tap below to see your word — keep it secret!</div>
+        </div>
+
+        <button class="btn btn-primary" id="t-reveal" onclick="revealRole()">See my word</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 4 — WORD REVEAL
+           Player sees their word only — NO role label.
+           Role is revealed publicly only when eliminated.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-reveal">
+        <div class="page-title" id="t-reveal-title">Your word</div>
+        <div class="page-sub"   id="t-reveal-sub">Memorise this, then hide it</div>
+
+        <!-- Player count badge -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Role card — badge intentionally hidden until elimination -->
+        <div class="role-card" id="roleCard">
+          <!-- roleBadge is hidden via JS — players don't see their role here -->
+          <div class="role-badge" id="roleBadge" style="display:none"></div>
+          <div class="role-word"  id="roleWord"></div>
+          <div class="role-desc"  id="roleDesc"></div>
+        </div>
+
+        <button class="btn btn-primary" id="t-hide" onclick="nextPassPlayer()">Hide & pass →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 5 — GAME
+           Live board: round counter, player list,
+           word-check counter, and action buttons.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-game">
+
+        <!-- Header: large round number on the left,
+             total players + active count on the right -->
+        <div class="game-header">
+          <div>
+            <div class="round-display" id="roundNum">1</div>
+            <div class="round-label"   id="t-round-label">Round</div>
+          </div>
+          <!-- gameMeta shows "N players · N active" — updated by renderGameScreen() -->
+          <div class="game-meta" id="gameMeta"></div>
+        </div>
+
+        <!-- Player rows — rebuilt by renderGameScreen() in JS -->
+        <div id="gamePlayerList"></div>
+
+        <!-- Word-check usage counter -->
+        <div class="recheck-bar" id="recheckInfo"></div>
+
+        <div class="spacer"></div>
+
+        <!-- Side-by-side action buttons -->
+        <div class="game-actions">
+          <button class="btn"             id="t-recheck" onclick="openRecheck()">Check word</button>
+          <button class="btn btn-primary" id="t-elim"    onclick="openEliminate()">Eliminate</button>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 6 — RECHECK
+           Any active player can tap their name to re-see their word.
+           The word check counter increments each use.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-recheck">
+        <div class="page-title" id="t-recheck-title">What is your word?</div>
+        <div class="page-sub"   id="t-recheck-sub">Tap your name to see your word again</div>
+
+        <!-- Player count badge -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Active player buttons — populated by openRecheck() in JS -->
+        <div id="recheckList"></div>
+
+        <div class="spacer"></div>
+        <button class="btn" id="t-back-game" onclick="goTo('screen-game');renderGameScreen()">← Back</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 7 — END
+           Winner announced, full stats including elimination
+           order with roles (one per line), and restart options.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-end">
+
+        <!-- Winner block -->
+        <div class="winner-display">
+          <div class="winner-icon">
+            <!-- Trophy / star icon -->
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M14 3l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L14 17l-5.6 3 1.1-6.1L5 9.5l6.2-.9L14 3z"
+                stroke="#D85A30" stroke-width="1.5" stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="winner-title" id="winnerTitle"></div>
+          <!-- winnerSub shows "Words: word1 / word2" -->
+          <div class="winner-sub"   id="winnerSub"></div>
+        </div>
+
+        <!-- Player count badge -->
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Stat rows + elimination list — populated by endGame() in JS.
+             Elimination order is one player per line with role badge.   -->
+        <div id="endStats"></div>
+
+        <div class="spacer"></div>
+
+        <!-- Three end-of-game options -->
+        <button class="btn btn-primary" id="t-newgame"     onclick="newGame()">New game — new words</button>
+        <button class="btn"             id="t-editplayers" onclick="editPlayers()">Edit players</button>
+        <button class="btn btn-danger"  id="t-quit"        onclick="quitGame()">Quit</button>
+      </div>
+
+
+      <!-- Modal container — bottom-sheet modals are injected here by JS -->
+      <div id="modalContainer"></div>
+
+    </div><!-- /.frame -->
+  </div><!-- /#app -->
+
+  <!-- Game logic — at end of body so DOM is fully built before JS runs -->
+  <script src="undercover.js"></script>
+
+</body>
+</html>
