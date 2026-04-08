@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--
+  UNDERCOVER — Main HTML file  (Sunny Coast theme)
+  Styles  → undercover.css
+  Logic   → undercover.js
+
+  Screen flow:
+    screen-intro   → Welcome page: rules summary + Start button
+    screen-setup   → Add players
+    screen-config  → Undercovers, Mr. White, word visibility, word pair
+    screen-pass    → Pass phone to each player
+    screen-reveal  → Player sees their WORD only (role hidden)
+    screen-game    → Live board with per-player recheck badge
+    screen-recheck → Re-check your word mid-game
+    screen-end     → Winner, elimination order with roles (one per line)
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Undercover</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="undercover.css"/>
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <div id="app">
+    <div class="frame" id="frame">
+
+      <div class="notch"></div>
+
+      <!-- Language toggle — top-right corner, always visible -->
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">FR</button>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 0 — INTRO
+           Ocean-themed welcome page.
+           Explains the three roles and how the game works.
+           data-i18n attributes are translated by applyLang().
+           ════════════════════════════════════════════════════ -->
+      <div class="screen active" id="screen-intro">
+
+        <!-- Hero area with animated wave SVG -->
+        <div class="intro-hero">
+          <!-- Decorative ocean SVG illustration -->
+          <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"
+               style="width:100%;max-width:320px;margin:0 auto 12px;display:block">
+            <!-- Sky -->
+            <rect width="320" height="110" fill="#e0f4f8" rx="12"/>
+            <!-- Deep ocean -->
+            <path d="M0 70 Q40 58 80 68 Q120 78 160 64 Q200 50 240 62 Q280 74 320 60 L320 110 L0 110 Z"
+                  fill="#0a9396" opacity="0.7"/>
+            <!-- Mid wave -->
+            <path d="M0 80 Q50 70 100 78 Q150 86 200 74 Q250 62 320 72 L320 110 L0 110 Z"
+                  fill="#0077b6" opacity="0.5"/>
+            <!-- Surface foam -->
+            <path d="M0 90 Q60 82 120 88 Q180 94 240 84 Q280 78 320 86 L320 110 L0 110 Z"
+                  fill="#94d2bd" opacity="0.45"/>
+            <!-- Sun -->
+            <circle cx="268" cy="28" r="18" fill="#ee6c4d" opacity="0.85"/>
+            <!-- Seagulls -->
+            <path d="M40 32 Q46 26 52 32" stroke="#005f73" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M60 22 Q66 16 72 22" stroke="#005f73" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M22 48 Q28 42 34 48" stroke="#005f73" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Boat hull -->
+            <path d="M138 72 L182 72 L176 82 L144 82 Z" fill="#ee6c4d" opacity="0.9"/>
+            <!-- Mast -->
+            <line x1="160" y1="50" x2="160" y2="72" stroke="#005f73" stroke-width="1.5"/>
+            <!-- Sail -->
+            <path d="M160 52 L176 68 L160 68 Z" fill="white" opacity="0.85"/>
+          </svg>
+
+          <div class="intro-title" data-i18n="intro-title">Undercover</div>
+          <div class="intro-subtitle" data-i18n="intro-tagline">A social deduction game</div>
+        </div>
+
+        <!-- Rule cards — one per role / mechanic -->
+        <div class="rule-card">
+          <div class="rule-icon rule-icon-civilian">
+            <!-- Wave icon for civilians -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 10 Q5 7 8 10 Q11 13 14 10 Q16 8 16 8" stroke="#0a9396" stroke-width="2"
+                    fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="rule-title" data-i18n="intro-rule-civ-title">Civilians</div>
+            <div class="rule-desc"  data-i18n="intro-rule-civ">
+              Most players share a word. Describe it without being too obvious.
+            </div>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon rule-icon-undercover">
+            <!-- Eye icon for undercover -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 9 Q5 4 9 4 Q13 4 16 9 Q13 14 9 14 Q5 14 2 9Z"
+                    stroke="#ee6c4d" stroke-width="1.5" fill="none"/>
+              <circle cx="9" cy="9" r="2.5" fill="#ee6c4d"/>
+            </svg>
+          </div>
+          <div>
+            <div class="rule-title" data-i18n="intro-rule-spy-title">Undercovers</div>
+            <div class="rule-desc"  data-i18n="intro-rule-spy">
+              One or more players get a similar but different word. Blend in!
+            </div>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon rule-icon-mrwhite">
+            <!-- Question mark icon for Mr. White -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="7" stroke="#b7950b" stroke-width="1.5"/>
+              <text x="9" y="13.5" text-anchor="middle" font-size="10"
+                    font-weight="700" fill="#b7950b" font-family="serif">?</text>
+            </svg>
+          </div>
+          <div>
+            <div class="rule-title" data-i18n="intro-rule-mw-title">Mr. White</div>
+            <div class="rule-desc"  data-i18n="intro-rule-mw">
+              Optional role. No word at all — listen and try to guess.
+            </div>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon rule-icon-flow">
+            <!-- Play / flow icon -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <polygon points="5,3 15,9 5,15" fill="#1a5276" opacity="0.7"/>
+            </svg>
+          </div>
+          <div>
+            <div class="rule-title" data-i18n="intro-rule-flow-title">How to play</div>
+            <div class="rule-desc"  data-i18n="intro-rule-flow">
+              Each round everyone gives a clue then vote to eliminate a suspect.
+              Civilians win when undercovers are gone. Undercovers win when civilians are out.
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+        <!-- Start button navigates to the player setup screen -->
+        <button class="btn btn-primary" onclick="goToSetup()" data-i18n="intro-start">
+          Play →
+        </button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 1 — SETUP
+           Host types player names one by one.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-setup">
+        <div class="page-title" id="t-setup">Players</div>
+        <div class="page-sub"   id="t-setup-sub">Add everyone playing tonight</div>
+
+        <!-- Badge hidden on this screen (list already shows count) -->
+        <span class="player-count-badge" style="visibility:hidden">0 players</span>
+
+        <div class="input-row">
+          <input
+            type="text"
+            id="playerInput"
+            placeholder="Player name"
+            onkeydown="if(event.key==='Enter') addPlayer()"
+          />
+          <button class="btn btn-primary btn-icon btn-sm" onclick="addPlayer()">+</button>
+        </div>
+
+        <div id="playerList"></div>
+        <div id="setup-error-box"></div>
+
+        <div class="spacer"></div>
+        <button class="btn btn-primary" id="t-next1" onclick="goToConfig()">Next →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 2 — CONFIG
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-config">
+        <div class="page-title" id="t-config">Settings</div>
+        <div class="page-sub"   id="t-config-sub">Configure the game</div>
+        <span class="player-count-badge">0 players</span>
+
+        <div class="section-label" id="t-undercov-label">Undercovers</div>
+        <div class="counter-row">
+          <button class="counter-btn" onclick="changeUnder(-1)">−</button>
+          <span   class="counter-val" id="underCount">1</span>
+          <button class="counter-btn" onclick="changeUnder(1)">+</button>
+          <span   class="counter-note" id="underSug"></span>
+        </div>
+
+        <div class="toggle-row">
+          <span class="toggle-label" id="t-mrw">Mr. White</span>
+          <label class="toggle">
+            <input type="checkbox" id="mrWhiteToggle" onchange="changeUnder(0)"/>
+            <span class="slider-t"></span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Hide-words toggle: when ON, words are chosen randomly and never shown -->
+        <div class="toggle-row" style="border-top:none;padding-top:0;margin-bottom:10px">
+          <span class="toggle-label" id="t-words-hidden-label">Hide words from everyone</span>
+          <label class="toggle">
+            <input type="checkbox" id="hideWordsToggle" onchange="onHideWordsChange()"/>
+            <span class="slider-t"></span>
+          </label>
+        </div>
+
+        <!-- Shown when words hidden: confirms a pair was locked in silently -->
+        <div id="wordHiddenNote" class="word-hidden-note" style="display:none">
+          A random pair is locked in — no one sees it, including the host.
+        </div>
+
+        <!-- Shown when words visible: host enters/edits the pair -->
+        <div id="wordVisibleSection">
+          <div class="section-label" id="t-words-label">Word pair</div>
+          <div class="card">
+            <div style="font-size:11px;color:var(--navy-light);margin-bottom:6px" id="t-civilian-word">
+              Civilian word
+            </div>
+            <div class="word-pair-grid">
+              <input class="word-input" type="text" id="word1"/>
+              <span  class="vs-divider">vs</span>
+              <input class="word-input" type="text" id="word2"/>
+            </div>
+            <div style="font-size:11px;color:var(--navy-light);margin-top:4px" id="t-undercover-word">
+              Undercover word
+            </div>
+            <button class="btn btn-sm" style="margin-top:12px;width:auto"
+                    onclick="suggestWords()" id="t-suggest">
+              ↻ Suggest a pair
+            </button>
+          </div>
+        </div>
+
+        <div id="config-error-box"></div>
+
+        <div class="spacer"></div>
+        <button class="btn"             id="t-back1" onclick="goTo('screen-setup')">← Back</button>
+        <button class="btn btn-primary" id="t-start" onclick="startPassPhone()">Start game</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 3 — PASS PHONE
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-pass">
+        <div class="page-title" id="t-pass-title">Your turn</div>
+        <div class="page-sub"   id="t-pass-sub">Pass the phone to this player</div>
+        <span class="player-count-badge">0 players</span>
+
+        <div class="pass-card">
+          <div class="pass-avatar">
+            <span class="pass-initials" id="passInitials">A</span>
+          </div>
+          <div class="pass-name" id="passName">Alice</div>
+          <div class="pass-hint" id="t-pass-hint">Tap below to see your word — keep it secret!</div>
+        </div>
+
+        <button class="btn btn-primary" id="t-reveal" onclick="revealRole()">See my word</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 4 — WORD REVEAL
+           Players see ONLY their word — NO role label, NO role description.
+           Role badge is display:none until elimination.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-reveal">
+        <div class="page-title" id="t-reveal-title">Your word</div>
+        <div class="page-sub"   id="t-reveal-sub">Memorise this, then pass the phone</div>
+        <span class="player-count-badge">0 players</span>
+
+        <div class="role-card">
+          <!-- Role badge intentionally hidden at this stage -->
+          <div class="role-badge" id="roleBadge" style="display:none"></div>
+          <!-- The player's word (or "no word" for Mr. White) -->
+          <div class="role-word"  id="roleWord"></div>
+          <!-- Neutral hint — no role information -->
+          <div class="role-desc"  id="roleDesc"></div>
+        </div>
+
+        <button class="btn btn-primary" id="t-hide" onclick="nextPassPlayer()">Hide & pass →</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 5 — GAME
+           Live board: round, player rows with per-player
+           recheck badge (×N), and action buttons.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-game">
+        <div class="game-header">
+          <div>
+            <div class="round-display" id="roundNum">1</div>
+            <div class="round-label"   id="t-round-label">Round</div>
+          </div>
+          <!-- Shows "N players · N active" — updated by renderGameScreen() -->
+          <div class="game-meta" id="gameMeta"></div>
+        </div>
+
+        <!-- Player rows rebuilt by renderGameScreen() in JS.
+             Each active row shows a "×N" recheck badge when N > 0. -->
+        <div id="gamePlayerList"></div>
+
+        <div class="recheck-bar" id="recheckInfo"></div>
+
+        <div class="spacer"></div>
+
+        <div class="game-actions">
+          <button class="btn"             id="t-recheck" onclick="openRecheck()">Check word</button>
+          <button class="btn btn-primary" id="t-elim"    onclick="openEliminate()">Eliminate</button>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 6 — RECHECK
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-recheck">
+        <div class="page-title" id="t-recheck-title">What is your word?</div>
+        <div class="page-sub"   id="t-recheck-sub">Tap your name to see your word again</div>
+        <span class="player-count-badge">0 players</span>
+
+        <div id="recheckList"></div>
+
+        <div class="spacer"></div>
+        <button class="btn" id="t-back-game"
+                onclick="goTo('screen-game');renderGameScreen()">← Back</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════════════
+           SCREEN 7 — END
+           Winner, words, elimination order (one per line with role),
+           total checks, rounds played, and restart options.
+           ════════════════════════════════════════════════════ -->
+      <div class="screen" id="screen-end">
+        <div class="winner-display">
+          <div class="winner-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M14 3l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L14 17l-5.6 3 1.1-6.1L5 9.5l6.2-.9L14 3z"
+                    stroke="#0a9396" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="winner-title" id="winnerTitle"></div>
+          <!-- winnerSub shows "Words: word1 / word2" -->
+          <div class="winner-sub"   id="winnerSub"></div>
+        </div>
+
+        <span class="player-count-badge">0 players</span>
+
+        <!-- Stat rows + elimination list populated by endGame() in JS.
+             All labels come from the translations object — fully bilingual. -->
+        <div id="endStats"></div>
+
+        <div class="spacer"></div>
+
+        <button class="btn btn-primary" id="t-newgame"     onclick="newGame()">New game — new words</button>
+        <button class="btn"             id="t-editplayers" onclick="editPlayers()">Edit players</button>
+        <button class="btn btn-danger"  id="t-quit"        onclick="quitGame()">Quit</button>
+      </div>
+
+
+      <!-- Modal container — bottom sheets injected by JS -->
+      <div id="modalContainer"></div>
+
+    </div><!-- /.frame -->
+  </div><!-- /#app -->
+
+  <script src="undercover.js"></script>
+</body>
+</html>
