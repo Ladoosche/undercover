@@ -9,107 +9,1230 @@
 
 # ── ENGLISH PAIRS ────────────────────────────────────────────
 [EN]
+
+# Food & Drink
 Coffee | Tea
-Cat | Dog
-Pizza | Burger
-Beach | Pool
-Wine | Beer
-Bus | Subway
-Book | Magazine
-Cinema | Theatre
-Guitar | Piano
-Sushi | Tacos
-Snow | Rain
-Jacket | Coat
-Castle | Palace
-River | Lake
-Cheese | Butter
-Doctor | Nurse
-Lion | Tiger
-Sunrise | Sunset
-Train | Plane
-Milk | Juice
-Paris | Rome
-Shark | Dolphin
-Violin | Cello
-Chess | Checkers
+Espresso | Cappuccino
+Latte | Flat White
+Beer | Cider
+Wine | Champagne
 Whisky | Rum
-Candle | Lamp
-Forest | Jungle
-Bread | Croissant
-Museum | Gallery
-Sword | Knife
-Bicycle | Scooter
-Sofa | Armchair
+Vodka | Gin
+Juice | Smoothie
+Milk | Cream
+Butter | Margarine
+Bread | Baguette
+Croissant | Brioche
+Cake | Tart
+Cookie | Biscuit
+Muffin | Cupcake
+Pizza | Flatbread
+Burger | Sandwich
+Hot Dog | Sausage
+Taco | Burrito
+Sushi | Sashimi
+Ramen | Pho
+Pasta | Noodles
+Rice | Couscous
+Salad | Coleslaw
+Soup | Stew
+Curry | Chilli
+Steak | Chop
+Chicken | Turkey
+Salmon | Tuna
+Shrimp | Crab
+Lobster | Prawn
+Oyster | Clam
+Cheese | Brie
+Yoghurt | Kefir
+Honey | Jam
+Syrup | Molasses
+Olive Oil | Sunflower Oil
+Vinegar | Lemon Juice
+Salt | Sugar
+Pepper | Paprika
+Cinnamon | Nutmeg
+Garlic | Onion
+Tomato | Pepper
+Carrot | Parsnip
+Potato | Sweet Potato
+Broccoli | Cauliflower
+Spinach | Kale
+Lettuce | Rocket
+Mushroom | Truffle
+Apple | Pear
+Orange | Grapefruit
+Lemon | Lime
+Banana | Plantain
+Strawberry | Raspberry
+Blueberry | Blackberry
+Grape | Cherry
+Mango | Papaya
+Pineapple | Coconut
+Peach | Apricot
+Plum | Damson
+Watermelon | Cantaloupe
+Almond | Cashew
+Walnut | Pecan
+Peanut | Pistachio
+Chocolate | Caramel
+Vanilla | Coconut
+Ice Cream | Sorbet
+Waffle | Pancake
+Toast | Crumpet
+Cereal | Granola
+Porridge | Muesli
+
+# Animals
+Cat | Dog
+Lion | Tiger
+Elephant | Rhinoceros
+Giraffe | Zebra
+Cheetah | Leopard
+Wolf | Fox
+Bear | Panda
+Koala | Wombat
+Kangaroo | Wallaby
+Rabbit | Hare
+Squirrel | Chipmunk
+Beaver | Otter
+Seal | Sea Lion
+Dolphin | Porpoise
+Whale | Shark
+Octopus | Squid
+Jellyfish | Starfish
+Crab | Lobster
+Penguin | Puffin
+Eagle | Falcon
+Owl | Hawk
+Parrot | Macaw
+Flamingo | Pelican
+Swan | Goose
+Duck | Mallard
+Pigeon | Dove
+Seagull | Albatross
+Robin | Sparrow
+Crow | Raven
+Peacock | Pheasant
+Hummingbird | Kingfisher
+Butterfly | Moth
+Bee | Wasp
+Ant | Termite
+Spider | Scorpion
+Snake | Lizard
+Crocodile | Alligator
+Frog | Toad
+Turtle | Tortoise
+Horse | Donkey
+Cow | Buffalo
+Sheep | Goat
+Pig | Boar
+Deer | Elk
+Moose | Reindeer
+Camel | Dromedary
+Llama | Alpaca
+Gorilla | Chimpanzee
+Monkey | Baboon
+Leopard | Jaguar
+
+# Nature & Landscape
 Mountain | Hill
-Island | Peninsula
-Lighthouse | Watchtower
-Anchor | Chain
-Wave | Tide
-Coral | Seaweed
-Captain | Sailor
-Treasure | Gold
-Compass | Map
-Horizon | Skyline
-Seagull | Pigeon
-Sand | Pebble
-Sunscreen | Moisturiser
-Swimsuit | Wetsuit
-Surfboard | Paddleboard
-Harbour | Marina
+Volcano | Geyser
 Cliff | Dune
-Starfish | Jellyfish
+Cave | Cavern
+Forest | Jungle
+Desert | Savannah
+Prairie | Steppe
+Valley | Canyon
+River | Stream
+Lake | Pond
+Ocean | Sea
+Bay | Gulf
+Island | Peninsula
+Reef | Atoll
+Waterfall | Rapids
+Glacier | Iceberg
+Swamp | Marsh
+Meadow | Field
+Beach | Coastline
+Pebble | Gravel
+Sand | Silt
+Rock | Boulder
+Soil | Clay
+Mud | Quicksand
+Wave | Tide
+Current | Eddy
+Horizon | Skyline
+Fog | Mist
+Storm | Hurricane
+Thunder | Lightning
+Rainbow | Aurora
+Snow | Hail
+Frost | Ice
+Dew | Drizzle
+Rain | Shower
+Cloud | Cumulus
+Wind | Breeze
+Tornado | Cyclone
+Drought | Flood
+Earthquake | Landslide
+Avalanche | Mudslide
+Sunset | Sunrise
+Eclipse | Solstice
+Moon | Satellite
+Star | Comet
+Planet | Asteroid
+Galaxy | Nebula
+Sun | Star
+Sky | Atmosphere
+
+# Cities & Places
+Paris | Lyon
+London | Manchester
+New York | Chicago
+Tokyo | Osaka
+Rome | Naples
+Madrid | Barcelona
+Berlin | Hamburg
+Sydney | Melbourne
+Cairo | Alexandria
+Moscow | Saint Petersburg
+Beijing | Shanghai
+Dubai | Abu Dhabi
+Istanbul | Ankara
+Amsterdam | Rotterdam
+Brussels | Antwerp
+Vienna | Salzburg
+Prague | Bratislava
+Budapest | Bucharest
+Athens | Thessaloniki
+Lisbon | Porto
+Stockholm | Gothenburg
+Oslo | Bergen
+Helsinki | Tampere
+Copenhagen | Aarhus
+Dublin | Cork
+Edinburgh | Glasgow
+Toronto | Vancouver
+Montreal | Ottawa
+São Paulo | Rio de Janeiro
+Buenos Aires | Montevideo
+Mexico City | Guadalajara
+Lima | Bogotá
+Cape Town | Johannesburg
+Lagos | Nairobi
+Mumbai | Delhi
+Bangkok | Chiang Mai
+Seoul | Busan
+Singapore | Kuala Lumpur
+Auckland | Wellington
+
+# Transport
+Car | Van
+Bus | Tram
+Train | Metro
+Bicycle | Scooter
+Motorbike | Moped
+Plane | Helicopter
+Boat | Ferry
+Ship | Cruise Liner
+Submarine | Yacht
+Kayak | Canoe
+Sailboat | Speedboat
+Hot Air Balloon | Airship
+Taxi | Uber
+Lorry | Truck
+Ambulance | Fire Engine
+Police Car | Patrol Car
+Tractor | Harvester
+Forklift | Crane
+Skateboard | Rollerblade
+Rickshaw | Tuk-Tuk
+
+# Buildings & Structures
+House | Cottage
+Apartment | Studio
+Villa | Mansion
+Castle | Palace
+Tower | Skyscraper
+Cathedral | Basilica
+Church | Chapel
+Mosque | Temple
+Synagogue | Shrine
+Museum | Gallery
+Library | Archive
+School | University
+Hospital | Clinic
+Prison | Detention Centre
+Stadium | Arena
+Theatre | Opera House
+Cinema | Drive-In
+Hotel | Hostel
+Restaurant | Bistro
+Café | Tearoom
+Bar | Pub
+Supermarket | Grocery Store
+Market | Bazaar
+Shopping Mall | Department Store
+Factory | Warehouse
+Office | Co-Working Space
+Lighthouse | Watchtower
+Bridge | Viaduct
+Tunnel | Underpass
+Dam | Reservoir
+Power Station | Wind Farm
+Airport | Helipad
+Station | Terminal
+Harbour | Marina
+Garage | Parking Lot
+
+# Household & Objects
+Chair | Stool
+Sofa | Armchair
+Table | Desk
+Bed | Hammock
+Wardrobe | Closet
+Shelf | Cabinet
+Lamp | Lantern
+Mirror | Window
+Door | Gate
+Curtain | Blind
+Carpet | Rug
+Pillow | Cushion
+Blanket | Duvet
+Towel | Flannel
+Soap | Shower Gel
+Shampoo | Conditioner
+Toothbrush | Toothpaste
+Comb | Hairbrush
+Scissors | Shears
+Needle | Pin
+Thread | Yarn
+Knife | Cleaver
+Fork | Chopsticks
+Spoon | Ladle
+Pan | Wok
+Pot | Casserole
+Plate | Bowl
+Cup | Mug
+Glass | Tumbler
+Bottle | Flask
+Tin | Jar
+Bag | Sack
+Box | Crate
+Basket | Hamper
+Umbrella | Parasol
+Key | Padlock
+Wallet | Purse
+Watch | Clock
+Ring | Bracelet
+Necklace | Pendant
+Hat | Cap
+Scarf | Shawl
+Gloves | Mittens
+Boots | Trainers
+Shoes | Sandals
+Jacket | Coat
+Jumper | Cardigan
+Shirt | Blouse
+Trousers | Jeans
+Dress | Skirt
+Swimsuit | Wetsuit
+Tie | Bow Tie
+Belt | Braces
+Backpack | Briefcase
+Suitcase | Trunk
+
+# Technology & Media
+Phone | Tablet
+Laptop | Computer
+Television | Monitor
+Radio | Speaker
+Camera | Webcam
+Headphones | Earbuds
+Keyboard | Trackpad
+Mouse | Stylus
+Printer | Scanner
+Router | Modem
+Microphone | Amplifier
+Console | Arcade Machine
+Battery | Charger
+Cable | Adaptor
+Screen | Projector
+App | Software
+Website | Blog
+Podcast | Audiobook
+eBook | Newspaper
+Magazine | Journal
+Email | Text Message
+Video Call | Voicemail
+Satellite | Antenna
+Drone | Remote Control
+Robot | Android
+Artificial Intelligence | Algorithm
+
+# Sport & Leisure
+Football | Rugby
+Basketball | Volleyball
+Tennis | Squash
+Badminton | Table Tennis
+Golf | Croquet
+Baseball | Softball
+Cricket | Rounders
+Swimming | Diving
+Surfing | Kitesurfing
+Sailing | Rowing
+Skiing | Snowboarding
+Ice Skating | Rollerblading
+Cycling | Mountain Biking
+Running | Jogging
+Hiking | Trekking
+Climbing | Abseiling
+Boxing | Wrestling
+Judo | Karate
+Yoga | Pilates
+Gym | Fitness Class
+Chess | Draughts
+Poker | Bridge
+Darts | Snooker
+Bowling | Skittles
+Archery | Fencing
+Gymnastics | Acrobatics
+Marathon | Triathlon
+Relay Race | Sprint
+Javelin | Discus
+High Jump | Pole Vault
+
+# Arts & Culture
+Painting | Drawing
+Sculpture | Installation
+Photography | Videography
+Music | Singing
+Guitar | Bass Guitar
+Piano | Harpsichord
+Violin | Viola
+Cello | Double Bass
+Trumpet | Trombone
+Flute | Clarinet
+Saxophone | Oboe
+Drums | Bongos
+Ballet | Contemporary Dance
+Opera | Musical
+Theatre | Pantomime
+Film | Documentary
+Novel | Short Story
+Poetry | Prose
+Comedy | Satire
+Exhibition | Retrospective
+Concert | Recital
+Festival | Carnival
+Parade | Procession
+
+# Science & Nature
+Atom | Molecule
+Cell | Organism
+DNA | Gene
+Protein | Enzyme
+Bacteria | Virus
+Fungus | Mould
+Plant | Algae
+Root | Stem
+Flower | Blossom
+Leaf | Petal
+Seed | Spore
+Fossil | Amber
+Crystal | Mineral
+Diamond | Ruby
+Gold | Silver
+Iron | Copper
+Magnet | Compass
+Telescope | Microscope
+Thermometer | Barometer
+Chemical | Compound
+Experiment | Hypothesis
+Theory | Law
+Physics | Chemistry
+Biology | Ecology
+Astronomy | Geology
+Mathematics | Statistics
+Evolution | Adaptation
+Photosynthesis | Respiration
+
+# Professions
+Doctor | Surgeon
+Nurse | Paramedic
+Teacher | Lecturer
+Lawyer | Solicitor
+Judge | Magistrate
+Police Officer | Detective
+Firefighter | Lifeguard
+Soldier | Sailor
+Pilot | Co-Pilot
+Engineer | Architect
+Plumber | Electrician
+Carpenter | Joiner
+Chef | Pastry Chef
+Waiter | Barista
+Gardener | Farmer
+Vet | Zoologist
+Scientist | Researcher
+Journalist | Editor
+Author | Poet
+Artist | Illustrator
+Musician | Conductor
+Actor | Director
+Photographer | Filmmaker
+
+# Emotions & Abstract
+Love | Affection
+Happiness | Joy
+Sadness | Melancholy
+Anger | Frustration
+Fear | Anxiety
+Courage | Bravery
+Hope | Optimism
+Trust | Faith
+Jealousy | Envy
+Shame | Guilt
+Pride | Arrogance
+Surprise | Astonishment
+Curiosity | Wonder
+Loneliness | Solitude
+Freedom | Independence
+Justice | Equality
+Peace | Harmony
+Chaos | Disorder
+Mystery | Secret
+Memory | Nostalgia
+Dream | Vision
+Imagination | Creativity
+
+# Miscellaneous
+Candle | Torch
+Map | Compass
+Anchor | Chain
+Treasure | Loot
+Pirate | Privateer
+Sword | Sabre
+Shield | Armour
+Crown | Tiara
+Flag | Banner
+Medal | Trophy
+Certificate | Diploma
+Gift | Present
+Party | Celebration
+Birthday | Anniversary
+Wedding | Engagement
+Funeral | Memorial
+Holiday | Vacation
+Adventure | Expedition
+Journey | Voyage
+Mission | Quest
+Legend | Myth
+Magic | Sorcery
+Ghost | Spirit
+Monster | Beast
+Dragon | Griffin
+Fairy | Elf
+Wizard | Warlock
+Hero | Champion
+Villain | Antagonist
+Spy | Agent
+Detective | Inspector
+Clue | Evidence
+Riddle | Puzzle
+Game | Competition
+Reward | Prize
+Penalty | Fine
+Rule | Regulation
+Law | Decree
+Agreement | Contract
+Promise | Vow
+Secret | Whisper
+Rumour | Gossip
+Lie | Deception
+Truth | Fact
+Opinion | Belief
+Argument | Debate
+Question | Answer
+Problem | Solution
+Plan | Strategy
+Goal | Target
+Success | Achievement
+Failure | Defeat
+Change | Transformation
+Beginning | Origin
+End | Conclusion
+Time | Duration
+Space | Distance
+Colour | Shade
+Sound | Echo
+Light | Shadow
+Heat | Cold
+Weight | Mass
+Speed | Velocity
+Power | Force
+Energy | Fuel
 
 
 # ── FRENCH PAIRS ─────────────────────────────────────────────
 [FR]
+
+# Nourriture & Boissons
 Café | Thé
-Chat | Chien
-Pizza | Burger
-Plage | Piscine
-Vin | Bière
-Bus | Métro
-Livre | Magazine
-Cinéma | Théâtre
-Guitare | Piano
-Sushi | Tacos
-Neige | Pluie
-Veste | Manteau
-Château | Palais
-Rivière | Lac
-Fromage | Beurre
-Docteur | Infirmier
-Lion | Tigre
-Lever du soleil | Coucher du soleil
-Train | Avion
-Lait | Jus
-Paris | Rome
-Requin | Dauphin
-Violon | Violoncelle
-Échecs | Dames
+Espresso | Cappuccino
+Latte | Chocolat chaud
+Bière | Cidre
+Vin | Champagne
 Whisky | Rhum
-Bougie | Lampe
-Forêt | Jungle
-Pain | Croissant
-Musée | Galerie
-Épée | Couteau
-Vélo | Trottinette
-Canapé | Fauteuil
+Vodka | Gin
+Jus | Smoothie
+Lait | Crème
+Beurre | Margarine
+Pain | Baguette
+Croissant | Brioche
+Gâteau | Tarte
+Cookie | Biscuit
+Muffin | Cupcake
+Pizza | Flammekueche
+Burger | Sandwich
+Hot Dog | Saucisse
+Taco | Burrito
+Sushi | Sashimi
+Ramen | Pho
+Pâtes | Nouilles
+Riz | Couscous
+Salade | Taboulé
+Soupe | Potage
+Curry | Chili
+Steak | Côtelette
+Poulet | Dinde
+Saumon | Thon
+Crevette | Crabe
+Homard | Langouste
+Huître | Palourde
+Fromage | Brie
+Yaourt | Kéfir
+Miel | Confiture
+Sirop | Mélasse
+Huile d'olive | Huile de tournesol
+Vinaigre | Jus de citron
+Sel | Sucre
+Poivre | Paprika
+Cannelle | Muscade
+Ail | Oignon
+Tomate | Poivron
+Carotte | Panais
+Pomme de terre | Patate douce
+Brocoli | Chou-fleur
+Épinard | Chou frisé
+Laitue | Roquette
+Champignon | Truffe
+Pomme | Poire
+Orange | Pamplemousse
+Citron | Citron vert
+Banane | Plantain
+Fraise | Framboise
+Myrtille | Mûre
+Raisin | Cerise
+Mangue | Papaye
+Ananas | Noix de coco
+Pêche | Abricot
+Prune | Quetsche
+Pastèque | Melon
+Amande | Noix de cajou
+Noix | Pécan
+Cacahuète | Pistache
+Chocolat | Caramel
+Vanille | Coco
+Glace | Sorbet
+Gaufre | Crêpe
+Toast | Tartine
+Céréales | Granola
+Porridge | Müesli
+Fondant | Moelleux
+Éclair | Chou à la crème
+Macarons | Financiers
+Kouign-amann | Galette
+
+# Animaux
+Chat | Chien
+Lion | Tigre
+Éléphant | Rhinocéros
+Girafe | Zèbre
+Guépard | Léopard
+Loup | Renard
+Ours | Panda
+Koala | Wombat
+Kangourou | Wallaby
+Lapin | Lièvre
+Écureuil | Tamia
+Castor | Loutre
+Phoque | Otarie
+Dauphin | Marsouin
+Baleine | Requin
+Pieuvre | Calmar
+Méduse | Étoile de mer
+Crabe | Homard
+Pingouin | Macareux
+Aigle | Faucon
+Hibou | Buse
+Perroquet | Ara
+Flamant rose | Pélican
+Cygne | Oie
+Canard | Colvert
+Pigeon | Tourterelle
+Mouette | Albatros
+Rouge-gorge | Moineau
+Corbeau | Corneille
+Paon | Faisan
+Colibri | Martin-pêcheur
+Papillon | Mite
+Abeille | Guêpe
+Fourmi | Termite
+Araignée | Scorpion
+Serpent | Lézard
+Crocodile | Alligator
+Grenouille | Crapaud
+Tortue | Tortue terrestre
+Cheval | Âne
+Vache | Buffle
+Mouton | Chèvre
+Cochon | Sanglier
+Cerf | Élan
+Orignal | Renne
+Chameau | Dromadaire
+Lama | Alpaga
+Gorille | Chimpanzé
+Singe | Babouin
+Jaguar | Puma
+Fennec | Mangouste
+Hérisson | Taupe
+Chauve-souris | Hibou
+Cigogne | Héron
+
+# Nature & Paysages
 Montagne | Colline
-Île | Presqu'île
-Phare | Tour de guet
-Ancre | Chaîne
-Vague | Marée
-Corail | Algue
-Capitaine | Marin
-Trésor | Or
-Boussole | Carte
-Horizon | Panorama
-Mouette | Pigeon
-Sable | Galet
-Crème solaire | Hydratant
-Maillot de bain | Combinaison
-Planche de surf | Paddle
-Port | Marina
+Volcan | Geyser
 Falaise | Dune
-Étoile de mer | Méduse
+Grotte | Caverne
+Forêt | Jungle
+Désert | Savane
+Prairie | Steppe
+Vallée | Canyon
+Rivière | Ruisseau
+Lac | Étang
+Océan | Mer
+Baie | Golfe
+Île | Presqu'île
+Récif | Atoll
+Cascade | Rapide
+Glacier | Iceberg
+Marécage | Marais
+Prairie | Champ
+Plage | Côte
+Galet | Gravier
+Sable | Limon
+Roche | Rocher
+Sol | Argile
+Boue | Sables mouvants
+Vague | Marée
+Courant | Tourbillon
+Horizon | Panorama
+Brouillard | Brume
+Tempête | Ouragan
+Tonnerre | Éclair
+Arc-en-ciel | Aurore boréale
+Neige | Grêle
+Givre | Verglas
+Rosée | Bruine
+Pluie | Averse
+Nuage | Cumulus
+Vent | Brise
+Tornade | Cyclone
+Sécheresse | Inondation
+Tremblement de terre | Glissement de terrain
+Avalanche | Coulée de boue
+Coucher de soleil | Lever de soleil
+Éclipse | Solstice
+Lune | Satellite
+Étoile | Comète
+Planète | Astéroïde
+Galaxie | Nébuleuse
+Soleil | Astre
+Ciel | Atmosphère
+
+# Villes & Lieux
+Paris | Lyon
+Marseille | Bordeaux
+Toulouse | Nantes
+Lille | Strasbourg
+Nice | Toulon
+Rennes | Grenoble
+Montpellier | Clermont-Ferrand
+Brest | Le Mans
+Tours | Dijon
+Angers | Reims
+Londres | Manchester
+New York | Chicago
+Tokyo | Osaka
+Rome | Naples
+Madrid | Barcelone
+Berlin | Hambourg
+Sydney | Melbourne
+Le Caire | Alexandrie
+Moscou | Saint-Pétersbourg
+Pékin | Shanghai
+Dubaï | Abu Dhabi
+Istanbul | Ankara
+Amsterdam | Rotterdam
+Bruxelles | Anvers
+Vienne | Salzbourg
+Prague | Bratislava
+Budapest | Bucarest
+Athènes | Thessalonique
+Lisbonne | Porto
+Stockholm | Göteborg
+Oslo | Bergen
+Helsinki | Tampere
+Copenhague | Aarhus
+Dublin | Cork
+Édimbourg | Glasgow
+Toronto | Vancouver
+Montréal | Ottawa
+São Paulo | Rio de Janeiro
+Buenos Aires | Montevideo
+Mexico | Guadalajara
+Lima | Bogotá
+Le Cap | Johannesburg
+Lagos | Nairobi
+Mumbai | Delhi
+Bangkok | Chiang Mai
+Séoul | Busan
+Singapour | Kuala Lumpur
+Auckland | Wellington
+Genève | Zurich
+Barcelone | Valence
+
+# Transport
+Voiture | Camionnette
+Bus | Tramway
+Train | Métro
+Vélo | Trottinette
+Moto | Cyclomoteur
+Avion | Hélicoptère
+Bateau | Ferry
+Navire | Paquebot
+Sous-marin | Yacht
+Kayak | Canoë
+Voilier | Hors-bord
+Montgolfière | Dirigeable
+Taxi | VTC
+Camion | Semi-remorque
+Ambulance | Camion de pompiers
+Voiture de police | Voiture de patrouille
+Tracteur | Moissonneuse
+Chariot élévateur | Grue
+Skateboard | Rollers
+Pousse-pousse | Tuk-Tuk
+TGV | Intercités
+Téléphérique | Funiculaire
+Segway | Gyropode
+Navette spatiale | Fusée
+Bateau à vapeur | Péniche
+
+# Bâtiments & Structures
+Maison | Chaumière
+Appartement | Studio
+Villa | Manoir
+Château | Palais
+Tour | Gratte-ciel
+Cathédrale | Basilique
+Église | Chapelle
+Mosquée | Temple
+Synagogue | Sanctuaire
+Musée | Galerie
+Bibliothèque | Archives
+École | Université
+Hôpital | Clinique
+Prison | Centre de détention
+Stade | Arène
+Théâtre | Opéra
+Cinéma | Drive-in
+Hôtel | Auberge
+Restaurant | Bistrot
+Café | Salon de thé
+Bar | Pub
+Supermarché | Épicerie
+Marché | Bazar
+Centre commercial | Grand magasin
+Usine | Entrepôt
+Bureau | Espace de coworking
+Phare | Tour de guet
+Pont | Viaduc
+Tunnel | Passage souterrain
+Barrage | Réservoir
+Centrale électrique | Parc éolien
+Aéroport | Héliport
+Gare | Terminal
+Port | Marina
+Garage | Parking
+Mairie | Préfecture
+Palais de justice | Tribunal
+Commissariat | Gendarmerie
+Pharmacie | Laboratoire
+Boulangerie | Pâtisserie
+
+# Maison & Objets
+Chaise | Tabouret
+Canapé | Fauteuil
+Table | Bureau
+Lit | Hamac
+Armoire | Placard
+Étagère | Cabinet
+Lampe | Lanterne
+Miroir | Fenêtre
+Porte | Portail
+Rideau | Store
+Tapis | Carpette
+Oreiller | Coussin
+Couverture | Duvet
+Serviette | Gant de toilette
+Savon | Gel douche
+Shampoing | Après-shampoing
+Brosse à dents | Dentifrice
+Peigne | Brosse à cheveux
+Ciseaux | Cisailles
+Aiguille | Épingle
+Fil | Laine
+Couteau | Couperet
+Fourchette | Baguettes
+Cuillère | Louche
+Poêle | Wok
+Casserole | Cocotte
+Assiette | Bol
+Tasse | Mug
+Verre | Gobelet
+Bouteille | Gourde
+Boîte | Bocal
+Sac | Sachet
+Carton | Caisse
+Panier | Corbeille
+Parapluie | Ombrelle
+Clé | Cadenas
+Portefeuille | Porte-monnaie
+Montre | Horloge
+Bague | Bracelet
+Collier | Pendentif
+Chapeau | Casquette
+Écharpe | Châle
+Gants | Moufles
+Bottes | Baskets
+Chaussures | Sandales
+Veste | Manteau
+Pull | Gilet
+Chemise | Chemisier
+Pantalon | Jean
+Robe | Jupe
+Maillot de bain | Combinaison
+Cravate | Nœud papillon
+Ceinture | Bretelles
+Sac à dos | Mallette
+Valise | Malle
+
+# Technologie & Médias
+Téléphone | Tablette
+Ordinateur portable | Ordinateur de bureau
+Télévision | Écran
+Radio | Enceinte
+Appareil photo | Webcam
+Casque | Écouteurs
+Clavier | Pavé tactile
+Souris | Stylet
+Imprimante | Scanner
+Routeur | Modem
+Microphone | Amplificateur
+Console | Borne d'arcade
+Batterie | Chargeur
+Câble | Adaptateur
+Écran | Vidéoprojecteur
+Application | Logiciel
+Site web | Blog
+Podcast | Livre audio
+Livre numérique | Journal
+Magazine | Revue
+Email | SMS
+Appel vidéo | Messagerie vocale
+Satellite | Antenne
+Drone | Télécommande
+Robot | Androïde
+Intelligence artificielle | Algorithme
+Réseaux sociaux | Forum
+Streaming | Téléchargement
+Cloud | Serveur
+Cryptomonnaie | Blockchain
+
+# Sport & Loisirs
+Football | Rugby
+Basketball | Volleyball
+Tennis | Squash
+Badminton | Tennis de table
+Golf | Croquet
+Baseball | Softball
+Cricket | Rounders
+Natation | Plongée
+Surf | Kitesurf
+Voile | Aviron
+Ski | Snowboard
+Patinage sur glace | Roller
+Cyclisme | VTT
+Course à pied | Jogging
+Randonnée | Trek
+Escalade | Rappel
+Boxe | Lutte
+Judo | Karaté
+Yoga | Pilates
+Salle de sport | Cours collectif
+Échecs | Dames
+Poker | Bridge
+Fléchettes | Billard
+Bowling | Quilles
+Tir à l'arc | Escrime
+Gymnastique | Acrobatie
+Marathon | Triathlon
+Course de relais | Sprint
+Javelot | Disque
+Saut en hauteur | Saut à la perche
+Pétanque | Boules
+Paintball | Laser game
+Accrobranche | Tyrolienne
+Parachutisme | Parapente
+Spéléologie | Canyoning
+
+# Arts & Culture
+Peinture | Dessin
+Sculpture | Installation
+Photographie | Vidéographie
+Musique | Chant
+Guitare | Basse
+Piano | Clavecin
+Violon | Alto
+Violoncelle | Contrebasse
+Trompette | Trombone
+Flûte | Clarinette
+Saxophone | Hautbois
+Batterie | Bongos
+Ballet | Danse contemporaine
+Opéra | Comédie musicale
+Théâtre | Pantomime
+Film | Documentaire
+Roman | Nouvelle
+Poésie | Prose
+Comédie | Satire
+Exposition | Rétrospective
+Concert | Récital
+Festival | Carnaval
+Défilé | Procession
+Bande dessinée | Manga
+Calligraphie | Enluminure
+Mosaïque | Fresque
+Origami | Kirigami
+Tapisserie | Broderie
+Céramique | Poterie
+Gravure | Lithographie
+
+# Sciences & Nature
+Atome | Molécule
+Cellule | Organisme
+ADN | Gène
+Protéine | Enzyme
+Bactérie | Virus
+Champignon | Moisissure
+Plante | Algue
+Racine | Tige
+Fleur | Floraison
+Feuille | Pétale
+Graine | Spore
+Fossile | Ambre
+Cristal | Minéral
+Diamant | Rubis
+Or | Argent
+Fer | Cuivre
+Aimant | Boussole
+Télescope | Microscope
+Thermomètre | Baromètre
+Produit chimique | Composé
+Expérience | Hypothèse
+Théorie | Loi
+Physique | Chimie
+Biologie | Écologie
+Astronomie | Géologie
+Mathématiques | Statistiques
+Évolution | Adaptation
+Photosynthèse | Respiration
+Gravité | Magnétisme
+Radiation | Onde
+Électricité | Magnétisme
+Fusion | Fission
+Isotope | Neutron
+Proton | Électron
+Acide | Base
+Réaction | Catalyse
+Osmose | Diffusion
+Chromosomes | Mitose
+Neurone | Synapse
+Hormone | Anticorps
+
+# Professions
+Médecin | Chirurgien
+Infirmier | Ambulancier
+Professeur | Maître de conférences
+Avocat | Notaire
+Juge | Magistrat
+Policier | Détective
+Pompier | Maître nageur
+Soldat | Marin
+Pilote | Co-pilote
+Ingénieur | Architecte
+Plombier | Électricien
+Charpentier | Menuisier
+Chef | Pâtissier
+Serveur | Barista
+Jardinier | Agriculteur
+Vétérinaire | Zoologiste
+Scientifique | Chercheur
+Journaliste | Rédacteur en chef
+Auteur | Poète
+Artiste | Illustrateur
+Musicien | Chef d'orchestre
+Acteur | Réalisateur
+Photographe | Cinéaste
+Boucher | Charcutier
+Boulanger | Pâtissier
+Fleuriste | Horticulteur
+Libraire | Bibliothécaire
+Pharmacien | Biochimiste
+Géologue | Géographe
+Diplomate | Ambassadeur
+Maire | Préfet
+Député | Sénateur
+Ministre | Président
+Astronaute | Cosmonaute
+Archéologue | Anthropologue
+
+# Émotions & Abstrait
+Amour | Affection
+Bonheur | Joie
+Tristesse | Mélancolie
+Colère | Frustration
+Peur | Anxiété
+Courage | Bravoure
+Espoir | Optimisme
+Confiance | Foi
+Jalousie | Envie
+Honte | Culpabilité
+Fierté | Arrogance
+Surprise | Étonnement
+Curiosité | Émerveillement
+Solitude | Isolement
+Liberté | Indépendance
+Justice | Égalité
+Paix | Harmonie
+Chaos | Désordre
+Mystère | Secret
+Mémoire | Nostalgie
+Rêve | Vision
+Imagination | Créativité
+Passion | Enthousiasme
+Compassion | Empathie
+Gratitude | Reconnaissance
+Admiration | Respect
+Regret | Remords
+Soulagement | Quiétude
+Impatience | Précipitation
+Indifférence | Détachement
+
+# Divers
+Bougie | Torche
+Carte | Boussole
+Ancre | Chaîne
+Trésor | Butin
+Pirate | Corsaire
+Épée | Sabre
+Bouclier | Armure
+Couronne | Tiare
+Drapeau | Bannière
+Médaille | Trophée
+Certificat | Diplôme
+Cadeau | Présent
+Fête | Célébration
+Anniversaire | Commémoration
+Mariage | Fiançailles
+Funérailles | Mémorial
+Vacances | Voyage
+Aventure | Expédition
+Voyage | Périple
+Mission | Quête
+Légende | Mythe
+Magie | Sorcellerie
+Fantôme | Esprit
+Monstre | Bête
+Dragon | Griffon
+Fée | Elfe
+Sorcier | Magicien
+Héros | Champion
+Vilain | Antagoniste
+Espion | Agent
+Détective | Inspecteur
+Indice | Preuve
+Énigme | Devinette
+Jeu | Compétition
+Récompense | Prix
+Pénalité | Amende
+Règle | Règlement
+Loi | Décret
+Accord | Contrat
+Promesse | Vœu
+Secret | Murmure
+Rumeur | Commérage
+Mensonge | Tromperie
+Vérité | Fait
+Opinion | Croyance
+Débat | Discussion
+Question | Réponse
+Problème | Solution
+Plan | Stratégie
+Objectif | Cible
+Succès | Réussite
+Échec | Défaite
+Changement | Transformation
+Début | Origine
+Fin | Conclusion
+Temps | Durée
+Espace | Distance
+Couleur | Teinte
+Son | Écho
+Lumière | Ombre
+Chaleur | Froid
+Poids | Masse
+Vitesse | Vélocité
+Puissance | Force
+Énergie | Carburant
+Hirondelle | Moineau
+Labyrinthe | Dédale
+Mirage | Illusion
+Écho | Reflet
+Clocher | Beffroi
+Moulin | Manège
+Carrousel | Balançoire
+Toboggan | Trampoline
+Kermesse | Foire
+Cirque | Cabaret
+Marionnette | Pantin
+Masque | Déguisement
+Confetti | Serpentin
+Feu d'artifice | Pétard
+Lampion | Lanterne
+Fanfare | Harmonie
+Fanion | Oriflamme
+Blason | Armoiries
