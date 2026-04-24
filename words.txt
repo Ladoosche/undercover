@@ -1,0 +1,115 @@
+# UNDERCOVER — Word Pairs
+# ============================================================
+# Each line is one pair:  CivilianWord | UndercoverWord
+# Lines starting with # are comments and are ignored.
+# You can add, remove, or edit pairs freely.
+# Keep the | separator between the two words.
+# ============================================================
+
+
+# ── ENGLISH PAIRS ────────────────────────────────────────────
+[EN]
+Coffee | Tea
+Cat | Dog
+Pizza | Burger
+Beach | Pool
+Wine | Beer
+Bus | Subway
+Book | Magazine
+Cinema | Theatre
+Guitar | Piano
+Sushi | Tacos
+Snow | Rain
+Jacket | Coat
+Castle | Palace
+River | Lake
+Cheese | Butter
+Doctor | Nurse
+Lion | Tiger
+Sunrise | Sunset
+Train | Plane
+Milk | Juice
+Paris | Rome
+Shark | Dolphin
+Violin | Cello
+Chess | Checkers
+Whisky | Rum
+Candle | Lamp
+Forest | Jungle
+Bread | Croissant
+Museum | Gallery
+Sword | Knife
+Bicycle | Scooter
+Sofa | Armchair
+Mountain | Hill
+Island | Peninsula
+Lighthouse | Watchtower
+Anchor | Chain
+Wave | Tide
+Coral | Seaweed
+Captain | Sailor
+Treasure | Gold
+Compass | Map
+Horizon | Skyline
+Seagull | Pigeon
+Sand | Pebble
+Sunscreen | Moisturiser
+Swimsuit | Wetsuit
+Surfboard | Paddleboard
+Harbour | Marina
+Cliff | Dune
+Starfish | Jellyfish
+
+
+# ── FRENCH PAIRS ─────────────────────────────────────────────
+[FR]
+Café | Thé
+Chat | Chien
+Pizza | Burger
+Plage | Piscine
+Vin | Bière
+Bus | Métro
+Livre | Magazine
+Cinéma | Théâtre
+Guitare | Piano
+Sushi | Tacos
+Neige | Pluie
+Veste | Manteau
+Château | Palais
+Rivière | Lac
+Fromage | Beurre
+Docteur | Infirmier
+Lion | Tigre
+Lever du soleil | Coucher du soleil
+Train | Avion
+Lait | Jus
+Paris | Rome
+Requin | Dauphin
+Violon | Violoncelle
+Échecs | Dames
+Whisky | Rhum
+Bougie | Lampe
+Forêt | Jungle
+Pain | Croissant
+Musée | Galerie
+Épée | Couteau
+Vélo | Trottinette
+Canapé | Fauteuil
+Montagne | Colline
+Île | Presqu'île
+Phare | Tour de guet
+Ancre | Chaîne
+Vague | Marée
+Corail | Algue
+Capitaine | Marin
+Trésor | Or
+Boussole | Carte
+Horizon | Panorama
+Mouette | Pigeon
+Sable | Galet
+Crème solaire | Hydratant
+Maillot de bain | Combinaison
+Planche de surf | Paddle
+Port | Marina
+Falaise | Dune
+Étoile de mer | Méduse
