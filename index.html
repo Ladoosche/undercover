@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!--
+  index.html — Home page
+  - Language selector (EN / FR) — applies to all games
+  - Player list manager with drag-to-reorder (long-press + slide)
+  - Game cards: one per available game
+  - To add a new game: add a card in the "game-grid" section
+    and create a new folder (e.g. /mynamegame/) with its own files.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Game Night</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    /* ── Index-specific styles ─────────────────────────────── */
+
+    /* Language selector — two pill buttons at the top */
+    .lang-bar {
+      display: flex; gap: 8px; margin-bottom: 20px;
+    }
+    .lang-pill {
+      flex: 1; padding: 10px;
+      border-radius: var(--r); border: 1.5px solid var(--card-border);
+      background: var(--white-foam); color: var(--navy-mid);
+      font-size: 14px; font-weight: 500; font-family: var(--font-body);
+      cursor: pointer; text-align: center;
+      transition: background .15s, border-color .15s;
+    }
+    .lang-pill.active {
+      background: var(--teal); color: #fff; border-color: var(--teal);
+    }
+    .lang-pill:not(.active):hover { background: var(--teal-pale); }
+
+    /* Player list — drag-to-reorder rows */
+    .player-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--white-foam);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--r); margin-bottom: 7px;
+      font-size: 14px; user-select: none;
+      transition: box-shadow .15s, opacity .15s;
+    }
+    .player-item.dragging {
+      opacity: 0.5;
+      box-shadow: 0 6px 24px rgba(10,147,150,0.18);
+    }
+    .player-item.drag-over {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+    }
+
+    /* Drag handle — long-press activates drag on touch */
+    .drag-handle {
+      cursor: grab; color: var(--navy-pale);
+      font-size: 18px; flex-shrink: 0; padding: 2px 4px;
+      touch-action: none; /* prevent scroll interference */
+    }
+    .drag-handle:active { cursor: grabbing; }
+
+    .player-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--teal-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 11px;
+      font-weight: 700; color: var(--teal-dark); flex-shrink: 0;
+    }
+    .player-name {
+      flex: 1; font-weight: 500; color: var(--navy);
+    }
+    .remove-btn {
+      background: none; border: none; color: var(--navy-pale);
+      cursor: pointer; font-size: 18px; padding: 0 2px;
+      transition: color .15s;
+    }
+    .remove-btn:hover { color: var(--coral); }
+
+    /* Game cards grid */
+    .game-grid {
+      display: flex; flex-direction: column; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .game-card {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 18px;
+      background: var(--white-foam);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--r-lg);
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, transform .1s, box-shadow .15s;
+    }
+    .game-card:hover {
+      background: var(--teal-pale);
+      box-shadow: 0 4px 16px rgba(10,147,150,0.12);
+    }
+    .game-card:active { transform: scale(0.98); }
+
+    /* "Coming soon" card — greyed out, not clickable */
+    .game-card.coming-soon {
+      opacity: 0.5; cursor: default; pointer-events: none;
+    }
+
+    .game-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; flex-shrink: 0;
+    }
+    .game-icon-teal   { background: var(--teal-pale); }
+    .game-icon-coral  { background: var(--coral-pale); }
+    .game-icon-sand   { background: var(--sand-dark); }
+
+    .game-info { flex: 1; }
+    .game-title {
+      font-family: var(--font-display); font-size: 17px;
+      font-weight: 600; color: var(--teal-dark); margin-bottom: 3px;
+    }
+    .game-desc { font-size: 12px; color: var(--navy-light); line-height: 1.5; }
+    .game-arrow { font-size: 18px; color: var(--navy-pale); }
+
+    .coming-soon-badge {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--navy-light); background: var(--sand-dark);
+      border-radius: 10px; padding: 2px 8px; margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    /* Input row */
+    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .input-row input {
+      flex: 1; padding: 12px 14px; border-radius: var(--r);
+      border: 1.5px solid var(--card-border);
+      background: var(--white-foam); color: var(--navy);
+      font-size: 15px; font-family: var(--font-body); outline: none;
+      transition: border-color .2s;
+    }
+    .input-row input:focus { border-color: var(--teal); }
+    .input-row input::placeholder { color: var(--navy-pale); }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div id="app">
+  <div class="frame">
+    <div class="notch"></div>
+
+    <div class="screen active" id="screen-home">
+
+      <!-- App title -->
+      <div style="text-align:center;padding:8px 0 16px">
+        <svg viewBox="0 0 60 40" width="60" style="display:block;margin:0 auto 8px">
+          <rect width="60" height="40" fill="#e0f4f8" rx="8"/>
+          <path d="M0 26 Q15 20 30 24 Q45 28 60 22 L60 40 L0 40Z" fill="#0a9396" opacity="0.7"/>
+          <path d="M0 32 Q20 26 40 30 Q52 33 60 28 L60 40 L0 40Z" fill="#0077b6" opacity="0.5"/>
+          <circle cx="46" cy="10" r="7" fill="#ee6c4d" opacity="0.85"/>
+        </svg>
+        <div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--teal-dark)" id="t-app-title">Game Night</div>
+        <div style="font-size:12px;color:var(--navy-light);font-weight:300;margin-top:2px" id="t-app-sub">Choose your game</div>
+      </div>
+
+      <!-- ── Language selector ─────────────────────────────── -->
+      <div class="section-label" id="t-lang-label">Language</div>
+      <div class="lang-bar">
+        <button class="lang-pill active" id="pill-en" onclick="chooseLang('en')">🇬🇧 English</button>
+        <button class="lang-pill"        id="pill-fr" onclick="chooseLang('fr')">🇫🇷 Français</button>
+      </div>
+
+      <!-- ── Player list ───────────────────────────────────── -->
+      <div class="section-label" id="t-players-label">Players</div>
+      <div class="input-row">
+        <input type="text" id="playerInput" onkeydown="if(event.key==='Enter')addPlayer()"/>
+        <button class="btn btn-primary btn-icon btn-sm" onclick="addPlayer()">+</button>
+      </div>
+      <div id="playerList"></div>
+      <div id="player-error"></div>
+
+      <div class="divider"></div>
+
+      <!-- ── Game selector ─────────────────────────────────── -->
+      <div class="section-label" id="t-games-label">Games</div>
+      <div class="game-grid">
+
+        <!-- Undercover — available -->
+        <a class="game-card" href="undercover/index.html" id="card-undercover">
+          <div class="game-icon game-icon-teal">🕵️</div>
+          <div class="game-info">
+            <div class="game-title" id="t-uc-title">Undercover</div>
+            <div class="game-desc"  id="t-uc-desc">Find the spy hiding among civilians before it's too late.</div>
+          </div>
+          <div class="game-arrow">›</div>
+        </a>
+
+        <!--
+          ════════════════════════════════════════════════════
+          TO ADD A NEW GAME:
+          1. Duplicate the <a class="game-card"> block below
+          2. Set href="yourgame/index.html"
+          3. Choose an icon emoji and colour class
+          4. Add title/description translations in applyLang()
+          5. Remove the "coming-soon" class when ready
+          ════════════════════════════════════════════════════
+        -->
+
+        <!-- Placeholder — future game slot 1 -->
+        <div class="game-card coming-soon">
+          <div class="game-icon game-icon-coral">🃏</div>
+          <div class="game-info">
+            <div class="game-title" id="t-g2-title">
+              New game <span class="coming-soon-badge" id="t-soon">Soon</span>
+            </div>
+            <div class="game-desc" id="t-g2-desc">Another game is coming…</div>
+          </div>
+        </div>
+
+        <!-- Placeholder — future game slot 2 -->
+        <div class="game-card coming-soon">
+          <div class="game-icon game-icon-sand">🎲</div>
+          <div class="game-info">
+            <div class="game-title" id="t-g3-title">
+              New game <span class="coming-soon-badge" id="t-soon2">Soon</span>
+            </div>
+            <div class="game-desc" id="t-g3-desc">Another game is coming…</div>
+          </div>
+        </div>
+
+      </div><!-- /.game-grid -->
+
+    </div><!-- /#screen-home -->
+  </div><!-- /.frame -->
+</div><!-- /#app -->
+
+<script src="shared.js"></script>
+<script>
+/* =============================================================
+   index.js (inline) — Home page logic
+   ============================================================= */
+
+/* ── Translations ──────────────────────────────────────────── */
+const T = {
+  en: {
+    'app-title':     'Game Night',
+    'app-sub':       'Choose your game',
+    'lang-label':    'Language',
+    'players-label': 'Players',
+    'games-label':   'Games',
+    'uc-title':      'Undercover',
+    'uc-desc':       'Find the spy hiding among civilians before it\'s too late.',
+    'g2-title':      'New game',
+    'g2-desc':       'Another game is coming…',
+    'g3-title':      'New game',
+    'g3-desc':       'Another game is coming…',
+    'soon':          'Soon',
+    'soon2':         'Soon',
+    'player-input-placeholder': 'Player name',
+    'err-empty':     'Please enter a name.',
+    'err-duplicate': 'This name is already in the list.',
+  },
+  fr: {
+    'app-title':     'Soirée Jeux',
+    'app-sub':       'Choisissez votre jeu',
+    'lang-label':    'Langue',
+    'players-label': 'Joueurs',
+    'games-label':   'Jeux',
+    'uc-title':      'Undercover',
+    'uc-desc':       'Trouvez l\'espion caché parmi les civils avant qu\'il ne soit trop tard.',
+    'g2-title':      'Nouveau jeu',
+    'g2-desc':       'Un autre jeu arrive bientôt…',
+    'g3-title':      'Nouveau jeu',
+    'g3-desc':       'Un autre jeu arrive bientôt…',
+    'soon':          'Bientôt',
+    'soon2':         'Bientôt',
+    'player-input-placeholder': 'Nom du joueur',
+    'err-empty':     'Veuillez entrer un nom.',
+    'err-duplicate': 'Ce nom est déjà dans la liste.',
+  },
+};
+
+function t(k) { return (T[LANG] || T.en)[k] || k; }
+
+function applyLang() {
+  /* Update all t-* elements */
+  Object.keys(T.en).forEach(k => {
+    const el = document.getElementById('t-' + k);
+    if (el) el.textContent = t(k);
+  });
+  /* Placeholder */
+  document.getElementById('playerInput').placeholder = t('player-input-placeholder');
+  /* Language pills */
+  document.getElementById('pill-en').classList.toggle('active', LANG === 'en');
+  document.getElementById('pill-fr').classList.toggle('active', LANG === 'fr');
+  /* html lang attribute */
+  document.documentElement.lang = LANG;
+}
+
+/* ── Language choice ───────────────────────────────────────── */
+function chooseLang(l) {
+  setLang(l);
+  applyLang();
+}
+
+/* ── Player management ─────────────────────────────────────── */
+function showPlayerError(msg) {
+  const box = document.getElementById('player-error');
+  box.innerHTML = `<div class="error-msg">${msg}</div>`;
+  setTimeout(() => { box.innerHTML = ''; }, 3500);
+}
+
+function addPlayer() {
+  const input = document.getElementById('playerInput');
+  const name  = input.value.trim();
+  if (!name) { showPlayerError(t('err-empty')); return; }
+  if (PLAYERS.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+    showPlayerError(t('err-duplicate')); return;
+  }
+  PLAYERS.push({ id: uid(), name });
+  savePlayers();
+  input.value = '';
+  renderPlayerList();
+  input.focus();
+}
+
+function removePlayer(id) {
+  PLAYERS = PLAYERS.filter(p => p.id !== id);
+  savePlayers();
+  renderPlayerList();
+}
+
+/* ── Render player list with drag-to-reorder ───────────────── */
+/* Touch drag uses long-press (500 ms) + pointermove to slide rows up/down.
+   Mouse drag uses the HTML5 drag-and-drop API.                            */
+
+let dragSrcId  = null;   /* id of the row being dragged */
+let longPressTimer = null;
+let isDraggingTouch = false;
+
+function renderPlayerList() {
+  const list = document.getElementById('playerList');
+  list.innerHTML = '';
+
+  PLAYERS.forEach(player => {
+    const row = document.createElement('div');
+    row.className   = 'player-item';
+    row.dataset.id  = player.id;
+    row.draggable   = true;
+
+    row.innerHTML = `
+      <span class="drag-handle" title="Hold to reorder">⠿</span>
+      <span class="player-avatar">${initials(player.name)}</span>
+      <span class="player-name">${player.name}</span>
+      <button class="remove-btn" onclick="removePlayer('${player.id}')">×</button>
+    `;
+
+    /* ── Mouse drag-and-drop ─────────────────────────── */
+    row.addEventListener('dragstart', e => {
+      dragSrcId = player.id;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => row.classList.add('dragging'), 0);
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      list.querySelectorAll('.player-item').forEach(r => r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      list.querySelectorAll('.player-item').forEach(r => r.classList.remove('drag-over'));
+      row.classList.add('drag-over');
+    });
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      if (dragSrcId && dragSrcId !== player.id) {
+        reorderPlayers(dragSrcId, player.id);
+      }
+    });
+
+    /* ── Touch long-press + slide ────────────────────── */
+    const handle = row.querySelector('.drag-handle');
+
+    handle.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      longPressTimer = setTimeout(() => {
+        isDraggingTouch = true;
+        dragSrcId = player.id;
+        row.classList.add('dragging');
+        handle.setPointerCapture(e.pointerId);
+      }, 400); /* 400 ms long-press threshold */
+    });
+
+    handle.addEventListener('pointermove', e => {
+      if (!isDraggingTouch || dragSrcId !== player.id) return;
+      e.preventDefault();
+
+      /* Find which row the pointer is currently over */
+      const target = document.elementFromPoint(e.clientX, e.clientY)?.closest('.player-item');
+      if (target && target.dataset.id !== dragSrcId) {
+        list.querySelectorAll('.player-item').forEach(r => r.classList.remove('drag-over'));
+        target.classList.add('drag-over');
+      }
+    });
+
+    handle.addEventListener('pointerup', e => {
+      clearTimeout(longPressTimer);
+      if (isDraggingTouch && dragSrcId === player.id) {
+        const target = document.elementFromPoint(e.clientX, e.clientY)?.closest('.player-item');
+        if (target && target.dataset.id !== dragSrcId) {
+          reorderPlayers(dragSrcId, target.dataset.id);
+        } else {
+          renderPlayerList(); /* redraw to remove drag-over states */
+        }
+      }
+      isDraggingTouch = false;
+      dragSrcId = null;
+      row.classList.remove('dragging');
+      list.querySelectorAll('.player-item').forEach(r => r.classList.remove('drag-over'));
+    });
+
+    handle.addEventListener('pointercancel', () => {
+      clearTimeout(longPressTimer);
+      isDraggingTouch = false;
+      dragSrcId = null;
+      renderPlayerList();
+    });
+
+    list.appendChild(row);
+  });
+}
+
+/* Moves the player with srcId so it appears before the player with targetId */
+function reorderPlayers(srcId, targetId) {
+  const srcIdx    = PLAYERS.findIndex(p => p.id === srcId);
+  const targetIdx = PLAYERS.findIndex(p => p.id === targetId);
+  if (srcIdx === -1 || targetIdx === -1) return;
+  const [moved] = PLAYERS.splice(srcIdx, 1);
+  const insertAt = PLAYERS.findIndex(p => p.id === targetId);
+  PLAYERS.splice(insertAt, 0, moved);
+  savePlayers();
+  renderPlayerList();
+}
+
+/* ── Background canvas ─────────────────────────────────────── */
+function drawBackground() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const w = canvas.width, h = canvas.height;
+
+  ctx.fillStyle = '#e8e4d8';
+  ctx.fillRect(0, 0, w, h);
+
+  [
+    { x:.80, y:.05, r:.30, a:.12, c:'10,147,150' },
+    { x:.10, y:.15, r:.22, a:.10, c:'0,119,182'  },
+    { x:.60, y:.70, r:.28, a:.08, c:'10,147,150' },
+    { x:.05, y:.75, r:.18, a:.09, c:'0,119,182'  },
+    { x:.90, y:.55, r:.20, a:.07, c:'148,210,189'},
+    { x:.40, y:.90, r:.22, a:.08, c:'10,147,150' },
+  ].forEach(c => {
+    ctx.beginPath();
+    ctx.arc(c.x*w, c.y*h, c.r*Math.min(w,h), 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${c.c},${c.a})`;
+    ctx.fill();
+  });
+
+  ctx.lineWidth = 0.8;
+  for (let i = 0; i < 8; i++) {
+    const baseY = h * (0.55 + i * 0.06);
+    ctx.strokeStyle = `rgba(10,147,150,${0.06 - i*0.005})`;
+    ctx.beginPath();
+    for (let x = 0; x < w; x += 4) {
+      const y = baseY + Math.sin(x*0.018+i)*14 + Math.sin(x*0.05+i)*6;
+      x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+}
+
+drawBackground();
+window.addEventListener('resize', drawBackground);
+
+/* ── Init ──────────────────────────────────────────────────── */
+applyLang();
+renderPlayerList();
+</script>
+</body>
+</html>
