@@ -1,305 +1,10 @@
 /* =============================================================
-   UNDERCOVER — Stylesheet  (Sunny Coast theme, English only)
-   Structure:
-     1.  CSS Variables
-     2.  Reset & base
-     3.  Background canvas
-     4.  App shell & phone frame
-     5.  Responsive breakpoints
-     6.  Screen layout
-     7.  Typography
-     8.  Player count badge
-     9.  Inline error messages
-    10.  Form elements (inputs, buttons)
-    11.  Cards
-    12.  Player list (setup screen)
-    13.  Counter (undercover count)
-    14.  Toggle switch
-    15.  Word language selector
-    16.  Word pair inputs
-    17.  Word visibility section
-    18.  Pass-phone screen
-    19.  Role reveal screen
-    20.  Game screen  (per-player recheck badge)
-    21.  End screen
-    22.  Intro screen
-    23.  Modal (bottom sheet)
-    24.  Animations
+   undercover/undercover.css
+   Undercover-specific styles (extends shared.css)
    ============================================================= */
 
-
-/* ── 1. CSS Variables ──────────────────────────────────────── */
-:root {
-  /* Sunny coast palette */
-  --sand:          #f5f0e8;
-  --sand-dark:     #e8e0d0;
-  --sand-mid:      #d4c9b0;
-  --teal:          #0a9396;
-  --teal-light:    #94d2bd;
-  --teal-dark:     #005f73;
-  --teal-pale:     #caf0e4;
-  --coral:         #ee6c4d;
-  --coral-dark:    #c05131;
-  --coral-pale:    #fde8e2;
-  --ocean-blue:    #0077b6;
-  --navy:          #03045e;
-  --navy-mid:      #1a5276;
-  --navy-light:    #5b8fa8;
-  --navy-pale:     #aecbd8;
-  --white-foam:    rgba(255,255,255,0.90);
-  --card-border:   rgba(10,147,150,0.20);
-  --green:         #52b788;
-
-  /* Typography */
-  --font-display: 'Playfair Display', serif;
-  --font-body:    'DM Sans', sans-serif;
-
-  /* Border radii */
-  --r:    14px;
-  --r-lg: 20px;
-}
-
-
-/* ── 2. Reset & base ───────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--sand);
-  color: var(--navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-/* ── 3. Background canvas ──────────────────────────────────── */
-#bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-
-/* ── 4. App shell & phone frame ────────────────────────────── */
-#app {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.frame {
-  background: var(--sand);
-  border-radius: 40px;
-  border: 5px solid var(--teal-dark);
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: min(400px, 100vw);
-  height: min(780px, 100vh);
-  transition: width .3s, height .3s, border-radius .3s;
-}
-
-.notch {
-  width: 100px;
-  height: 24px;
-  background: var(--teal-dark);
-  border-radius: 0 0 16px 16px;
-  margin: 0 auto 4px;
-  flex-shrink: 0;
-}
-
-
-/* ── 5. Responsive breakpoints ─────────────────────────────── */
-@media (max-width: 480px) {
-  .frame { border-radius: 0; border: none; width: 100vw; height: 100dvh; }
-  .notch { display: none; }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .frame { width: min(420px, 90vw); height: min(820px, 95vh); }
-}
-
-@media (min-width: 1024px) {
-  .frame { width: 390px; height: 760px; }
-  body { background: var(--sand-dark); }
-}
-
-
-/* ── 6. Screen layout ──────────────────────────────────────── */
-.screen {
-  display: none;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px 20px 28px;
-  scrollbar-width: none;
-}
-.screen::-webkit-scrollbar { display: none; }
-.screen.active { display: flex; }
-
-.spacer { flex: 1; }
-
-
-/* ── 7. Typography ─────────────────────────────────────────── */
-.page-title {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 6vw, 32px);
-  font-weight: 700;
-  color: var(--teal-dark);
-  line-height: 1.1;
-  margin-bottom: 4px;
-}
-
-.page-sub {
-  font-size: 13px;
-  color: var(--navy-light);
-  margin-bottom: 6px;
-  font-weight: 300;
-}
-
-.section-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--navy-light);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  margin-top: 4px;
-}
-
-.divider { height: 1px; background: var(--card-border); margin: 14px 0; }
-
-
-/* ── 8. Player count badge ─────────────────────────────────── */
-.player-count-badge {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--teal-dark);
-  background: var(--teal-pale);
-  border: 1px solid rgba(10,147,150,0.25);
-  border-radius: 20px;
-  padding: 3px 12px;
-  margin-bottom: 18px;
-  margin-top: 6px;
-}
-
-
-/* ── 9. Inline error messages ──────────────────────────────── */
-.error-msg {
-  background: rgba(238, 108, 77, 0.08);
-  border: 1px solid rgba(238, 108, 77, 0.35);
-  border-radius: var(--r);
-  color: var(--coral-dark);
-  font-size: 13px;
-  padding: 10px 14px;
-  margin-bottom: 10px;
-  animation: slideIn .2s ease;
-}
-
-
-/* ── 10. Form elements ─────────────────────────────────────── */
-.input-row { display: flex; gap: 8px; margin-bottom: 16px; }
-
-.input-row input {
-  flex: 1;
-  padding: 12px 14px;
-  border-radius: var(--r);
-  border: 1.5px solid var(--card-border);
-  background: var(--white-foam);
-  color: var(--navy);
-  font-size: 15px;
-  font-family: var(--font-body);
-  outline: none;
-  transition: border-color .2s;
-}
-.input-row input:focus        { border-color: var(--teal); }
-.input-row input::placeholder { color: var(--navy-pale); }
-
-/* Base button */
-.btn {
-  width: 100%;
-  padding: 13px 16px;
-  border-radius: var(--r);
-  border: 1.5px solid var(--card-border);
-  background: var(--white-foam);
-  color: var(--navy-mid);
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-body);
-  cursor: pointer;
-  margin-bottom: 8px;
-  transition: background .15s, transform .1s;
-  text-align: center;
-}
-.btn:active { transform: scale(0.98); }
-.btn:hover  { background: rgba(202,240,228,0.5); }
-
-.btn-primary { background: var(--teal); color: #fff; border-color: var(--teal); }
-.btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); }
-
-.btn-danger { border-color: rgba(238,108,77,0.4); color: var(--coral); }
-.btn-danger:hover { background: var(--coral-pale); }
-
-.btn-sm { width: auto; padding: 10px 16px; margin-bottom: 0; font-size: 13px; }
-
-.btn-icon {
-  width: 40px; height: 40px; padding: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 400; flex-shrink: 0;
-}
-
-
-/* ── 11. Cards ─────────────────────────────────────────────── */
-.card {
-  background: var(--white-foam);
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--r-lg);
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-
-/* ── 12. Player list ───────────────────────────────────────── */
-.player-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 11px 14px;
-  background: var(--white-foam);
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--r);
-  margin-bottom: 7px;
-  font-size: 14px;
-  animation: slideIn .2s ease;
-}
-
-.remove-btn {
-  background: none; border: none;
-  color: var(--navy-pale); cursor: pointer;
-  font-size: 18px; padding: 0 2px;
-  transition: color .15s;
-}
-.remove-btn:hover { color: var(--coral); }
-
-
-/* ── 13. Counter (undercover count) ────────────────────────── */
+/* ── Counter ───────────────────────────────────────────────── */
 .counter-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-
 .counter-btn {
   width: 38px; height: 38px; border-radius: 50%;
   border: 1.5px solid var(--card-border);
@@ -309,79 +14,30 @@ body {
   transition: background .15s;
 }
 .counter-btn:hover { background: var(--teal-pale); }
-
 .counter-val {
-  font-family: var(--font-display);
-  font-size: 28px; font-weight: 700;
+  font-family: var(--font-display); font-size: 28px; font-weight: 700;
   color: var(--teal-dark); min-width: 32px; text-align: center;
 }
-
 .counter-note { font-size: 12px; color: var(--navy-light); }
 
-
-/* ── 14. Toggle switch ─────────────────────────────────────── */
-.toggle-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0; border-top: 1px solid var(--card-border);
-}
-.toggle-label { font-size: 15px; color: var(--navy); font-weight: 400; }
-
-.toggle { position: relative; width: 46px; height: 26px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-
-.slider-t {
-  position: absolute; inset: 0;
-  background: var(--navy-pale); border-radius: 13px;
-  transition: .2s; cursor: pointer;
-}
-.slider-t::before {
-  content: '';
-  position: absolute; width: 20px; height: 20px;
-  left: 3px; bottom: 3px; background: white;
-  border-radius: 50%; transition: .2s;
-}
-input:checked + .slider-t               { background: var(--teal); }
-input:checked + .slider-t::before       { transform: translateX(20px); }
-
-
-/* ── 15. Word language selector ────────────────────────────── */
-/* Two-button toggle: EN | FR — used on the config screen       */
-.lang-selector {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
+/* ── Word language selector ────────────────────────────────── */
+.lang-selector { display: flex; gap: 6px; margin-bottom: 14px; }
 .lang-opt {
-  flex: 1;
-  padding: 9px;
-  border-radius: var(--r);
+  flex: 1; padding: 9px; border-radius: var(--r);
   border: 1.5px solid var(--card-border);
-  background: var(--white-foam);
-  color: var(--navy-mid);
-  font-size: 13px;
-  font-weight: 500;
-  font-family: var(--font-body);
-  cursor: pointer;
-  text-align: center;
+  background: var(--white-foam); color: var(--navy-mid);
+  font-size: 13px; font-weight: 500; font-family: var(--font-body);
+  cursor: pointer; text-align: center;
   transition: background .15s, border-color .15s, color .15s;
 }
-/* Active / selected state */
-.lang-opt.active {
-  background: var(--teal);
-  color: #fff;
-  border-color: var(--teal);
-}
+.lang-opt.active { background: var(--teal); color: #fff; border-color: var(--teal); }
 .lang-opt:not(.active):hover { background: var(--teal-pale); }
 
-
-/* ── 16. Word pair inputs ───────────────────────────────────── */
+/* ── Word pair inputs ──────────────────────────────────────── */
 .word-pair-grid {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: grid; grid-template-columns: 1fr auto 1fr;
   gap: 8px; align-items: center; margin: 10px 0;
 }
-
 .word-input {
   padding: 12px; border: 1.5px solid var(--card-border);
   border-radius: var(--r); background: rgba(255,255,255,0.95);
@@ -390,106 +46,55 @@ input:checked + .slider-t::before       { transform: translateX(20px); }
   outline: none; transition: border-color .2s; width: 100%;
 }
 .word-input:focus { border-color: var(--teal); }
+.vs-divider { font-size: 12px; color: var(--navy-pale); text-align: center; font-weight: 500; }
 
-.vs-divider {
-  font-size: 12px; color: var(--navy-pale);
-  text-align: center; font-weight: 500;
-}
-
-
-/* ── 17. Word visibility section ───────────────────────────── */
+/* ── Word visibility note ──────────────────────────────────── */
 .word-hidden-note {
-  background: rgba(10,147,150,0.07);
-  border: 1px solid rgba(10,147,150,0.25);
-  border-radius: var(--r);
-  padding: 12px 14px;
-  font-size: 13px;
-  color: var(--teal-dark);
-  line-height: 1.5;
-  margin-bottom: 8px;
+  background: rgba(10,147,150,0.07); border: 1px solid rgba(10,147,150,0.25);
+  border-radius: var(--r); padding: 12px 14px;
+  font-size: 13px; color: var(--teal-dark); line-height: 1.5; margin-bottom: 8px;
 }
 
-
-/* ── 18. Pass-phone screen ─────────────────────────────────── */
+/* ── Pass-phone screen ─────────────────────────────────────── */
 .pass-card {
-  flex: 1;
-  display: flex; flex-direction: column;
+  flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  background: var(--white-foam);
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--r-lg);
-  padding: 40px 24px; margin-bottom: 16px;
+  background: var(--white-foam); border: 1.5px solid var(--card-border);
+  border-radius: var(--r-lg); padding: 40px 24px; margin-bottom: 16px;
   text-align: center; min-height: 200px;
 }
-
 .pass-avatar {
   width: 72px; height: 72px; border-radius: 50%;
-  background: var(--teal-pale);
-  border: 2px solid rgba(10,147,150,0.3);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
+  background: var(--teal-pale); border: 2px solid rgba(10,147,150,0.3);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
 }
-.pass-initials {
-  font-family: var(--font-display); font-size: 26px;
-  font-weight: 700; color: var(--teal-dark);
-}
-.pass-name {
-  font-family: var(--font-display); font-size: 26px;
-  font-weight: 600; color: var(--navy); margin-bottom: 6px;
-}
+.pass-initials { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--teal-dark); }
+.pass-name { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
 .pass-hint { font-size: 13px; color: var(--navy-light); font-weight: 300; }
 
-
-/* ── 19. Role reveal screen ────────────────────────────────── */
+/* ── Role reveal screen ────────────────────────────────────── */
 .role-card {
-  flex: 1;
-  display: flex; flex-direction: column;
+  flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center; padding: 32px 20px;
   background: var(--white-foam); border: 1.5px solid var(--card-border);
   border-radius: var(--r-lg); margin-bottom: 16px;
   animation: revealAnim .3s ease;
 }
-
-.role-badge {
-  display: inline-block; padding: 5px 16px;
-  border-radius: 20px; font-size: 12px; font-weight: 500;
-  letter-spacing: 0.05em; margin-bottom: 8px;
-}
-.role-civilian   { background: var(--teal-pale);  color: var(--teal-dark); border: 1px solid rgba(10,147,150,0.3); }
-.role-undercover { background: var(--coral-pale);  color: var(--coral-dark); border: 1px solid rgba(238,108,77,0.3); }
-.role-mrwhite    { background: #fef9e7; color: #7d6608; border: 1px solid rgba(200,160,0,0.3); }
-
 .role-word {
   font-family: var(--font-display); font-size: 36px;
   font-weight: 700; color: var(--teal-dark); margin: 12px 0 8px;
 }
-
 .role-desc {
   font-size: 13px; color: var(--navy-light); font-weight: 300;
   line-height: 1.6; max-width: 220px; margin: 0 auto;
 }
 
-
-/* ── 20. Game screen ───────────────────────────────────────── */
-.game-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.round-display {
-  font-family: var(--font-display); font-size: 42px;
-  font-weight: 700; color: var(--teal-dark); line-height: 1;
-}
-.round-label {
-  font-size: 11px; color: var(--navy-light);
-  text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px;
-}
-
-.game-meta {
-  text-align: right; font-size: 12px;
-  color: var(--navy-light); padding-top: 6px; line-height: 1.8;
-}
+/* ── Game screen ───────────────────────────────────────────── */
+.game-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.round-display { font-family: var(--font-display); font-size: 42px; font-weight: 700; color: var(--teal-dark); line-height: 1; }
+.round-label { font-size: 11px; color: var(--navy-light); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+.game-meta { text-align: right; font-size: 12px; color: var(--navy-light); padding-top: 6px; line-height: 1.8; }
 
 .player-game-row {
   display: flex; justify-content: space-between; align-items: center;
@@ -498,57 +103,30 @@ input:checked + .slider-t::before       { transform: translateX(20px); }
   margin-bottom: 7px; transition: opacity .3s;
 }
 .player-game-row.eliminated { opacity: 0.38; }
-
 .player-game-name { font-size: 14px; font-weight: 500; color: var(--navy); }
-.player-game-row.eliminated .player-game-name {
-  text-decoration: line-through; color: var(--navy-light);
-}
-
-.player-row-right {
-  display: flex; align-items: center; gap: 6px;
-}
-
-/* Per-player recheck badge — hidden until count > 0 */
+.player-game-row.eliminated .player-game-name { text-decoration: line-through; color: var(--navy-light); }
+.player-row-right { display: flex; align-items: center; gap: 6px; }
 .recheck-count-badge {
-  font-size: 11px; font-weight: 500;
-  color: var(--navy-light);
-  background: var(--sand-dark);
-  border: 1px solid var(--card-border);
-  border-radius: 20px; padding: 1px 7px;
-  display: none;
+  font-size: 11px; font-weight: 500; color: var(--navy-light);
+  background: var(--sand-dark); border: 1px solid var(--card-border);
+  border-radius: 20px; padding: 1px 7px; display: none;
 }
 .recheck-count-badge.visible { display: inline-block; }
-
-.elim-badge {
-  font-size: 11px; font-weight: 600; color: var(--coral);
-  background: var(--coral-pale); padding: 2px 8px; border-radius: 20px;
-}
-
+.elim-badge { font-size: 11px; font-weight: 600; color: var(--coral); background: var(--coral-pale); padding: 2px 8px; border-radius: 20px; }
 .alive-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
-
-.recheck-bar {
-  font-size: 12px; color: var(--navy-light); text-align: center; margin: 4px 0 12px;
-}
-
+.recheck-bar { font-size: 12px; color: var(--navy-light); text-align: center; margin: 4px 0 12px; }
 .game-actions { display: flex; gap: 8px; margin-top: 4px; }
 .game-actions .btn { margin-bottom: 0; }
 
-
-/* ── 21. End screen ────────────────────────────────────────── */
+/* ── End screen ────────────────────────────────────────────── */
 .winner-display { text-align: center; padding: 20px 16px 16px; }
-
 .winner-icon {
   width: 64px; height: 64px; border-radius: 50%;
   background: var(--teal-pale); border: 2px solid rgba(10,147,150,0.3);
-  margin: 0 auto 14px;
-  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; display: flex; align-items: center; justify-content: center;
 }
-.winner-title {
-  font-family: var(--font-display); font-size: 26px;
-  font-weight: 700; color: var(--teal-dark); margin-bottom: 4px;
-}
+.winner-title { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
 .winner-sub { font-size: 13px; color: var(--navy-light); font-weight: 300; }
-
 .stat-row {
   display: flex; justify-content: space-between;
   padding: 11px 14px; background: var(--white-foam);
@@ -556,19 +134,15 @@ input:checked + .slider-t::before       { transform: translateX(20px); }
   margin-bottom: 7px; font-size: 13px;
 }
 .stat-label { color: var(--navy-light); }
-.stat-val   { color: var(--navy); font-weight: 500; text-align: right; max-width: 55%; }
-
+.stat-val { color: var(--navy); font-weight: 500; text-align: right; max-width: 55%; }
 .stat-section-label {
   font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--navy-light); margin: 12px 0 8px;
 }
-
 .stat-elim-list {
-  background: var(--white-foam);
-  border: 1.5px solid var(--card-border);
+  background: var(--white-foam); border: 1.5px solid var(--card-border);
   border-radius: var(--r); padding: 8px 14px; margin-bottom: 7px;
 }
-
 .stat-elim-row {
   display: flex; align-items: center; gap: 10px;
   padding: 7px 0; border-bottom: 1px solid var(--card-border);
@@ -577,104 +151,35 @@ input:checked + .slider-t::before       { transform: translateX(20px); }
 .stat-elim-num  { font-size: 12px; color: var(--navy-light); min-width: 18px; }
 .stat-elim-name { font-size: 14px; font-weight: 500; color: var(--navy); flex: 1; }
 
+/* Full roles recap table at end */
+.roles-recap-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--card-border);
+}
+.roles-recap-row:last-child { border-bottom: none; }
+.roles-recap-name { font-size: 14px; font-weight: 500; color: var(--navy); flex: 1; }
+.roles-recap-word { font-size: 12px; color: var(--navy-light); }
 
-/* ── 22. Intro screen ──────────────────────────────────────── */
+/* ── Intro screen ──────────────────────────────────────────── */
 .intro-hero { text-align: center; padding: 24px 8px 16px; }
-
-.intro-title {
-  font-family: var(--font-display);
-  font-size: 38px; font-weight: 700;
-  color: var(--teal-dark); line-height: 1.1; margin-bottom: 6px;
-}
-.intro-subtitle {
-  font-size: 13px; color: var(--navy-light);
-  font-weight: 300; margin-bottom: 20px;
-}
-
-.rule-card {
-  background: var(--white-foam);
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--r-lg);
-  padding: 14px 16px; margin-bottom: 10px;
-  display: flex; gap: 12px; align-items: flex-start;
-}
-
-.rule-icon {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-size: 16px;
-}
+.intro-title { font-family: var(--font-display); font-size: 38px; font-weight: 700; color: var(--teal-dark); line-height: 1.1; margin-bottom: 6px; }
+.intro-subtitle { font-size: 13px; color: var(--navy-light); font-weight: 300; margin-bottom: 20px; }
+.rule-card { background: var(--white-foam); border: 1.5px solid var(--card-border); border-radius: var(--r-lg); padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
+.rule-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .rule-icon-civilian   { background: var(--teal-pale); }
 .rule-icon-undercover { background: var(--coral-pale); }
 .rule-icon-mrwhite    { background: #fef9e7; }
 .rule-icon-flow       { background: var(--sand-dark); }
-
 .rule-title { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 3px; }
 .rule-desc  { font-size: 12px; color: var(--navy-light); font-weight: 300; line-height: 1.5; }
 
-
-/* ── 23. Modal (bottom sheet) ──────────────────────────────── */
-.modal-overlay {
-  position: absolute; inset: 0; z-index: 50;
-  background: rgba(3,4,94,0.35);
-  display: flex; align-items: flex-end;
-  border-radius: inherit;
+/* ── Back-to-home button ───────────────────────────────────── */
+.home-btn {
+  position: absolute; top: 42px; left: 16px; z-index: 20;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.05em;
+  color: var(--teal-dark); background: var(--teal-pale);
+  border: 1px solid rgba(10,147,150,0.3); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer; font-family: var(--font-body);
+  text-decoration: none; display: inline-block;
 }
-
-.modal-box {
-  width: 100%; background: var(--sand);
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-  padding: 20px 20px 32px;
-  animation: slideUp .25s ease;
-}
-
-/* Scrollable variant for 10+ players */
-.modal-box-scroll {
-  max-height: 72vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal-title {
-  font-family: var(--font-display); font-size: 20px;
-  font-weight: 600; color: var(--teal-dark); margin-bottom: 16px;
-}
-
-.modal-player-btn {
-  display: flex; align-items: center; gap: 12px;
-  width: 100%; padding: 12px 14px;
-  background: var(--white-foam); border: 1.5px solid var(--card-border);
-  border-radius: var(--r); margin-bottom: 7px;
-  cursor: pointer; text-align: left;
-  transition: background .15s; font-family: var(--font-body);
-}
-.modal-player-btn:hover { background: var(--teal-pale); }
-
-.modal-avatar {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--teal-pale);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-size: 13px;
-  font-weight: 700; color: var(--teal-dark); flex-shrink: 0;
-}
-.modal-player-name { font-size: 14px; font-weight: 500; color: var(--navy); }
-
-.modal-btns { display: flex; gap: 8px; }
-.modal-btns .btn { margin-bottom: 0; }
-
-
-/* ── 24. Animations ────────────────────────────────────────── */
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes revealAnim {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
-}
+@media (max-width: 480px) { .home-btn { top: 16px; } }
